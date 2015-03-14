@@ -1,16 +1,19 @@
 #include "world.h"
 
-World::World()
+World::World(std::string fileName)
  : success(false)
 {
     window = NULL;
     screen = NULL;
+    renderer = NULL;
     success = init();
+    gridMap.open(fileName);
 }
 
 World::~World()
 {
     //Destroy window
+    SDL_DestroyRenderer( renderer );
 	SDL_DestroyWindow( window );
     SDL_DestroySemaphore( runLock ); //Destroy semaphore
     SDL_Quit(); //Quit SDL
@@ -30,6 +33,9 @@ bool World::init()
         return false;
     // Set up the screen
     screen = SDL_GetWindowSurface( window );
+
+    //Create renderer for window
+    renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
 
     // Create the semaphore
     runLock = SDL_CreateSemaphore( 1 );
@@ -79,8 +85,44 @@ int World::screenThread()
         // Clean the screen to black
         SDL_FillRect( screen, &screen->clip_rect, SDL_MapRGB( screen->format, 0, 0, 0 ) );
 
-        //Update the surface
-        SDL_UpdateWindowSurface( window );
+        //Start drawing the grid world from the map
+        Map::MapSize mapSize = gridMap.getSize();
+        Map::MapSize gridSize(int(SCREEN_HEIGHT/mapSize.first),int(SCREEN_WIDTH/mapSize.second));
+
+        int value;
+        const Map::MultiArray grid = gridMap.getGrid();
+        for(int x=0; x<mapSize.first; x++)
+            for(int y=0; y<mapSize.second; y++)
+            {
+                value = grid[x][y];
+                switch(value) {
+                    case 1:
+                        break;
+                    case 0:
+                    default:
+                        SDL_SetRenderDrawColor( renderer, 0xd3, 0xd3, 0xd3, 0xd3 );
+                        SDL_Rect fillRect = { gridSize.second*y, gridSize.first*x, gridSize.second, gridSize.first };
+                        SDL_RenderFillRect( renderer, &fillRect );
+                }
+            }
+
+        //Draw blue horizontal lines
+        SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
+        int start(0);
+        while(start<SCREEN_HEIGHT)
+        {
+            SDL_RenderDrawLine( renderer, 0, start, SCREEN_WIDTH, start );
+            start += gridSize.first;
+        }
+        start = 0;
+        while(start<SCREEN_WIDTH)
+        {
+            SDL_RenderDrawLine( renderer, start, 0, start, SCREEN_HEIGHT);
+            start += gridSize.second;
+        }
+
+        //Update screen
+        SDL_RenderPresent( renderer );
     }
 
     return 0;

@@ -3,6 +3,9 @@
 
 #include <SDL.h>
 #include <SDL_thread.h>
+#include <string>
+
+#include "map.h"
 
 namespace Screen {
     /// The attributes of the screen
@@ -16,7 +19,7 @@ using namespace Screen;
 class World
 {
     public:
-        World();
+        World(std::string fileName);
         virtual ~World();
 
         bool successful() const { return success; };
@@ -24,6 +27,7 @@ class World
         void start();
 
     protected:
+        //virtual
 
     private:
         /** Creates all SDL components */
@@ -47,6 +51,11 @@ class World
         SDL_Window* window;
         /** SDL Screen for manipulation */
         SDL_Surface* screen;
+        /** The window renderer */
+        SDL_Renderer* renderer;
+
+        /** Map of the world */
+        Map gridMap;
 };
 
 #endif // WORLD_H

@@ -3,7 +3,7 @@
 
 int main( int argc, char* args[] )
 {
-    World world;
+    World world("map.dd");
     if(world.successful()==false)
         return 1;
     world.start();
