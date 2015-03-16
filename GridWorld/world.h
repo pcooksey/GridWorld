@@ -4,8 +4,10 @@
 #include <SDL.h>
 #include <SDL_thread.h>
 #include <string>
+#include <vector>
 
 #include "map.h"
+#include "object.h"
 
 namespace Screen {
     /// The attributes of the screen
@@ -16,6 +18,8 @@ namespace Screen {
 
 using namespace Screen;
 
+class Object;
+
 class World
 {
     public:
@@ -25,9 +29,11 @@ class World
         bool successful() const { return success; };
         /** Controls the event loop of the world */
         void start();
+        /** Add @Object to the world */
+        void addObject(Object* temp);
 
     protected:
-        //virtual
+        bool const move (Object* object, int x, int y);
 
     private:
         /** Creates all SDL components */
@@ -56,6 +62,10 @@ class World
 
         /** Map of the world */
         Map gridMap;
+
+        std::vector<Object*> objects;
+
+        friend Object;
 };
 
 #endif // WORLD_H

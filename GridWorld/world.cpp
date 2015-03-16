@@ -89,24 +89,46 @@ int World::screenThread()
         Map::MapSize mapSize = gridMap.getSize();
         Map::MapSize gridSize(int(SCREEN_HEIGHT/mapSize.first),int(SCREEN_WIDTH/mapSize.second));
 
+        // Drawing the map here
         int value;
         const Map::MultiArray grid = gridMap.getGrid();
+        SDL_Rect fillRect;
         for(int x=0; x<mapSize.first; x++)
             for(int y=0; y<mapSize.second; y++)
             {
                 value = grid[x][y];
                 switch(value) {
+                    case 4:
+                        SDL_SetRenderDrawColor( renderer, 0xff, 0x00, 0x00, 0x00 );
+                        break;
+                    case 3:
+                        SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0x00 );
+                        break;
+                    case 2:
+                        SDL_SetRenderDrawColor( renderer, 0x00, 0xff, 0xff, 0xff );
+                        break;
                     case 1:
+                        SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
                         break;
                     case 0:
                     default:
                         SDL_SetRenderDrawColor( renderer, 0xd3, 0xd3, 0xd3, 0xd3 );
-                        SDL_Rect fillRect = { gridSize.second*y, gridSize.first*x, gridSize.second, gridSize.first };
-                        SDL_RenderFillRect( renderer, &fillRect );
                 }
+                fillRect = { gridSize.second*y, gridSize.first*x, gridSize.second, gridSize.first };
+                SDL_RenderFillRect( renderer, &fillRect );
+
             }
 
-        //Draw blue horizontal lines
+        for(std::vector<Object*>::iterator it = objects.begin(); it!=objects.end(); it++)
+        {
+            (*it)->execute();
+            SDL_Color color = (*it)->color;
+            SDL_SetRenderDrawColor( renderer, color.r, color.b, color.g, color.a);
+            fillRect = { gridSize.second*(*it)->y, gridSize.first*(*it)->x, gridSize.second, gridSize.first };
+            SDL_RenderFillRect( renderer, &fillRect );
+        }
+
+        //Draw black grid lines
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
         int start(0);
         while(start<SCREEN_HEIGHT)
@@ -141,4 +163,28 @@ bool World::getRunning()
     bool run = running;
     SDL_SemPost( runLock ); //unlock
     return run;
+}
+
+bool const World::move(Object* object, int x, int y)
+{
+    Map::MapSize mapSize = gridMap.getSize();
+    const Map::MultiArray grid = gridMap.getGrid();
+    if(x>mapSize.first || y>mapSize.second)
+        return false;
+    if(grid[x][y]==1)
+        return false;
+    for(std::vector<Object*>::iterator it=objects.begin(); it!= objects.end(); it++)
+    {
+        // Does not check if the same object because object move should stop this from happening
+        if((*it)->x==x && (*it)->y==y)
+            return false;
+    }
+    object->x = x;
+    object->y = y;
+    return true;
+}
+
+void World::addObject(Object* temp)
+{
+    objects.push_back(temp);
 }
