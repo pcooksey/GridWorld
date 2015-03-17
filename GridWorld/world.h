@@ -5,6 +5,7 @@
 #include <SDL_thread.h>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "map.h"
 #include "object.h"
@@ -31,6 +32,8 @@ class World
         void start();
         /** Add @Object to the world */
         void addObject(Object* temp);
+
+        const Map& getGrid() {return gridMap;};
 
     protected:
         bool const move (Object* object, int x, int y);

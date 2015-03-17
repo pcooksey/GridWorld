@@ -122,10 +122,23 @@ int World::screenThread()
         for(std::vector<Object*>::iterator it = objects.begin(); it!=objects.end(); it++)
         {
             (*it)->execute();
-            SDL_Color color = (*it)->color;
-            SDL_SetRenderDrawColor( renderer, color.r, color.b, color.g, color.a);
-            fillRect = { gridSize.second*(*it)->y, gridSize.first*(*it)->x, gridSize.second, gridSize.first };
-            SDL_RenderFillRect( renderer, &fillRect );
+            if((*it)->bodyImage!=NULL)
+            {
+                // Show the Object body on the world
+                //Apply the image stretched
+				SDL_Rect renderQuad;
+				renderQuad.x = gridSize.second*(*it)->y;
+				renderQuad.y = gridSize.first*(*it)->x;
+				renderQuad.w = gridSize.second;
+				renderQuad.h = gridSize.first;
+				//Render to screen
+                SDL_RenderCopy( renderer, (*it)->bodyImage, NULL, &renderQuad );
+            } else {
+                SDL_Color color = (*it)->color;
+                SDL_SetRenderDrawColor( renderer, color.r, color.b, color.g, color.a);
+                fillRect = { gridSize.second*(*it)->y, gridSize.first*(*it)->x, gridSize.second, gridSize.first };
+                SDL_RenderFillRect( renderer, &fillRect );
+            }
         }
 
         //Draw black grid lines
@@ -145,6 +158,7 @@ int World::screenThread()
 
         //Update screen
         SDL_RenderPresent( renderer );
+        SDL_Delay(500);
     }
 
     return 0;

@@ -2,6 +2,7 @@
 #define OBJECT_H
 
 #include <SDL.h>
+#include <assert.h>
 #include "world.h"
 
 namespace ObjectBody {
@@ -17,8 +18,13 @@ class Object
         Object(const int &x, const int &y, World* world);
         virtual ~Object();
 
-        /** Sets the color for the object in the world */
+        int getx() const { return x; }
+        int gety() const { return y; }
+
+        /** Sets the @color for the object in the world */
         void setColor(int red, int blue, int green, int alpha);
+        /** Sets the @bodyImage for the object in the world */
+        void load_image( std::string filename );
     protected:
         /** Attempt to move the object in the world */
         bool move(int x, int y);
@@ -34,6 +40,8 @@ class Object
         int x, y;
         /** The color of the block or @Object */
         SDL_Color color;
+        /** The image used for the body */
+        SDL_Texture* bodyImage;
         /** Pointer to the world that contains the @Object */
         World* world;
 
