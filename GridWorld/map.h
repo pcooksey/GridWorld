@@ -14,9 +14,9 @@ class Map
         virtual ~Map();
         bool open(std::string fileName);
 
-        MapSize getSize() { return MapSize(height,width);}
+        MapSize getSize() { return MapSize(height,width);};
 
-        const MultiArray& getGrid() { return grid; }
+        const MultiArray& getGrid() { return grid; };
 
     protected:
     private:

@@ -9,7 +9,7 @@
 class Customer : public Object
 {
     public:
-        Customer(const int &x, const int &y, World* world);
+        Customer(const int &x, const int &y, const int &id, World* world);
         virtual ~Customer();
     protected:
     private:

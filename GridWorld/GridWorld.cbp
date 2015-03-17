@@ -31,6 +31,15 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="customer.cpp" />
+		<Unit filename="customer.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="map.cpp" />
+		<Unit filename="map.h" />
+		<Unit filename="object.cpp" />
+		<Unit filename="object.h" />
+		<Unit filename="world.cpp" />
+		<Unit filename="world.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

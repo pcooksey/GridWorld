@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <cmath>
 
 #include "map.h"
 #include "object.h"
@@ -36,6 +37,8 @@ class World
         void removeObject(Object* temp);
         /** Get the @gridMap for searching */
         const Map& getGrid() {return gridMap;};
+        /** Get the @worldMap for searching */
+        const Map::MultiArray& getWorldMap() {return worldMap;};
 
     protected:
         bool const move (Object* object, int x, int y);
@@ -51,6 +54,9 @@ class World
         void setRunning(bool run);
         /** Thread protected to get @running */
         bool getRunning();
+        /** Updates the @worldMap */
+        void updateWorldMap();
+
         /** Is true when the init was successful */
         bool success;
         /**  When false it signals for the @start thread to end */
@@ -67,6 +73,8 @@ class World
 
         /** Map of the world */
         Map gridMap;
+        /** Map of everything in world (includes objects) */
+        Map::MultiArray worldMap;
 
         std::vector<Object*> objects;
 

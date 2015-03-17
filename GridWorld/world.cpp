@@ -77,8 +77,6 @@ int World::screenThread()
 
     while(getRunning())
     {
-        // Time (dt) between frames **No need for fps**
-        time = (SDL_GetTicks() - delta);
         // Start clock over for time (dt)
         delta = SDL_GetTicks();
 
@@ -98,19 +96,20 @@ int World::screenThread()
             {
                 value = grid[x][y];
                 switch(value) {
-                    case 4:
+                    case 4: // Pick-up food zone
                         SDL_SetRenderDrawColor( renderer, 0xff, 0x00, 0x00, 0x00 );
                         break;
-                    case 3:
+                    case 3: // Door ways
                         SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0x00 );
                         break;
-                    case 2:
-                        SDL_SetRenderDrawColor( renderer, 0x00, 0xff, 0xff, 0xff );
+                    case 2: // Tables
+                        //5C4033
+                        SDL_SetRenderDrawColor( renderer, 0x66, 0x33, 0x00, 0xff );
                         break;
-                    case 1:
+                    case 1: // Walls
                         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
                         break;
-                    case 0:
+                    case 0: // Open space
                     default:
                         SDL_SetRenderDrawColor( renderer, 0xd3, 0xd3, 0xd3, 0xd3 );
                 }
@@ -119,6 +118,7 @@ int World::screenThread()
 
             }
 
+        // Color all objects into the world
         for(std::vector<Object*>::iterator it = objects.begin(); it!=objects.end(); it++)
         {
             (*it)->execute();
@@ -141,6 +141,9 @@ int World::screenThread()
             }
         }
 
+        // Update the world map for next cycle
+        updateWorldMap();
+
         //Draw black grid lines
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
         int start(0);
@@ -158,7 +161,11 @@ int World::screenThread()
 
         //Update screen
         SDL_RenderPresent( renderer );
-        SDL_Delay(500);
+        // Time (dt) between frames **No need for fps**
+        time = (SDL_GetTicks() - delta);
+        //std::cout<<time<<std::endl;
+        //Offset time computing with delay time for making it slower
+        SDL_Delay(fdim(500,time));
     }
 
     return 0;
@@ -185,7 +192,7 @@ bool const World::move(Object* object, int x, int y)
     const Map::MultiArray grid = gridMap.getGrid();
     if(x>mapSize.first || y>mapSize.second)
         return false;
-    if(grid[x][y]==1)
+    if(grid[x][y]!=0)
         return false;
     for(std::vector<Object*>::iterator it=objects.begin(); it!= objects.end(); it++)
     {
@@ -210,5 +217,14 @@ void World::removeObject(Object* temp)
     {
         if((*it)==temp)
             objects.erase(it);
+    }
+}
+
+void World::updateWorldMap()
+{
+    worldMap = gridMap.getGrid();
+    for(std::vector<Object*>::iterator it=objects.begin(); it!= objects.end(); it++)
+    {
+        worldMap[(*it)->x][(*it)->y] = (*it)->id;
     }
 }

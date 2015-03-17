@@ -1,7 +1,7 @@
 #include "customer.h"
 
-Customer::Customer(const int &x, const int &y, World* world)
-:Object(x, y, world), world(world)
+Customer::Customer(const int &x, const int &y, const int &id, World* world)
+:Object(x, y, id, world), world(world)
 {
 
 }

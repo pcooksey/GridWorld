@@ -1,7 +1,7 @@
 #include "object.h"
 
-Object::Object(const int &x, const int &y, World* world)
-    :x(x),y(y),world(world)
+Object::Object(const int &x, const int &y, const int &id, World* world)
+    :x(x), y(y), id(id), world(world)
 {
     type = ObjectBody::ALIVE;
     bodyImage = NULL;

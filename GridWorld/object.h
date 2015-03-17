@@ -16,7 +16,7 @@ class World;
 class Object
 {
     public:
-        Object(const int &x, const int &y, World* world);
+        Object(const int &x, const int &y, const int &id, World* world);
         virtual ~Object();
 
         int getx() const { return x; }
@@ -39,6 +39,7 @@ class Object
         /** Position of the object that can't be change manually
             only the world can change the values */
         int x, y;
+        int id;
         /** The color of the block or @Object */
         SDL_Color color;
         /** The image used for the body */

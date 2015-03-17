@@ -9,7 +9,7 @@ int main( int argc, char* args[] )
     /* initialize random seed: */
     srand (time(NULL));
     World world("map.dd");
-    Customer first(10,5,&world);
+    Customer first(10,5,6,&world);
     first.load_image("images/human1.bmp");
     world.addObject(&first);
     if(world.successful()==false)
