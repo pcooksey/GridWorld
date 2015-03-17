@@ -2,6 +2,7 @@
 #define OBJECT_H
 
 #include <SDL.h>
+#include <cstdlib>
 #include <assert.h>
 #include "world.h"
 

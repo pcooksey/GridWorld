@@ -319,7 +319,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1426563897 source:c:\users\pcooksey\documents\github\gridworld\gridworld\world.cpp
+1426564122 source:c:\users\pcooksey\documents\github\gridworld\gridworld\world.cpp
 	"world.h"
 
 1426563757 c:\users\pcooksey\documents\github\gridworld\gridworld\world.h
@@ -331,10 +331,12 @@
 	"map.h"
 	"object.h"
 
-1426563811 source:c:\users\pcooksey\documents\github\gridworld\gridworld\main.cpp
+1426567380 source:c:\users\pcooksey\documents\github\gridworld\gridworld\main.cpp
 	<SDL.h>
 	"world.h"
 	"customer.h"
+	<stdlib.h>
+	<time.h>
 
 1426373746 c:\users\pcooksey\documents\github\gridworld\gridworld\map.h
 	<fstream>
@@ -344,18 +346,19 @@
 1426364957 source:c:\users\pcooksey\documents\github\gridworld\gridworld\map.cpp
 	"map.h"
 
-1426563428 c:\users\pcooksey\documents\github\gridworld\gridworld\object.h
+1426568045 c:\users\pcooksey\documents\github\gridworld\gridworld\object.h
 	<SDL.h>
+	<cstdlib>
 	<assert.h>
 	"world.h"
 
-1426563569 source:c:\users\pcooksey\documents\github\gridworld\gridworld\object.cpp
+1426568054 source:c:\users\pcooksey\documents\github\gridworld\gridworld\object.cpp
 	"object.h"
-	<cmath>
 
-1426563969 source:c:\users\pcooksey\documents\github\gridworld\gridworld\customer.cpp
+1426567700 source:c:\users\pcooksey\documents\github\gridworld\gridworld\customer.cpp
 	"customer.h"
 
-1426558432 c:\users\pcooksey\documents\github\gridworld\gridworld\customer.h
+1426567512 c:\users\pcooksey\documents\github\gridworld\gridworld\customer.h
+	<stdlib.h>
 	"object.h"
 

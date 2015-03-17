@@ -13,5 +13,6 @@ Customer::~Customer()
 
 void Customer::execute()
 {
-    move(getx()-1,gety());
+    //std::cout<<((rand()%2-1?-1:1)*(rand()%2-1));
+    move(getx()+((rand()%2-1?-1:1)*(rand()%2-1)),gety()+((rand()%2-1?-1:1)*(rand()%2-1)));
 }

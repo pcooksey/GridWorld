@@ -1,6 +1,8 @@
 #ifndef CUSTOMER_H
 #define CUSTOMER_H
 
+#include <stdlib.h>
+
 #include "object.h"
 
 
