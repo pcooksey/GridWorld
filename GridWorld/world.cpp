@@ -189,7 +189,8 @@ bool const World::move(Object* object, int x, int y)
         return false;
     for(std::vector<Object*>::iterator it=objects.begin(); it!= objects.end(); it++)
     {
-        // Does not check if the same object because object move should stop this from happening
+        // Does not check if the same object because if
+        // object does not move then object move() returns true
         if((*it)->x==x && (*it)->y==y)
             return false;
     }
@@ -201,4 +202,13 @@ bool const World::move(Object* object, int x, int y)
 void World::addObject(Object* temp)
 {
     objects.push_back(temp);
+}
+
+void World::removeObject(Object* temp)
+{
+    for(std::vector<Object*>::iterator it=objects.begin(); it!= objects.end(); it++)
+    {
+        if((*it)==temp)
+            objects.erase(it);
+    }
 }

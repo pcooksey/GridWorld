@@ -32,7 +32,9 @@ class World
         void start();
         /** Add @Object to the world */
         void addObject(Object* temp);
-
+        /** Remove @Object from the world */
+        void removeObject(Object* temp);
+        /** Get the @gridMap for searching */
         const Map& getGrid() {return gridMap;};
 
     protected:
