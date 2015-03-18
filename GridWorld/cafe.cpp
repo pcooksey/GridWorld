@@ -26,7 +26,7 @@ void Cafe::start()
 
 void Cafe::execute()
 {
-    if(rand()%10==0)
+    if(rand()%20==0)
     {
         createCustomer();
     }

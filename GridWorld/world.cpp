@@ -168,7 +168,7 @@ int World::screenThread()
         time = (SDL_GetTicks() - delta);
         //std::cout<<time<<std::endl;
         //Offset time computing with delay time for making it slower
-        SDL_Delay(fdim(500,time));
+        SDL_Delay(fdim(50,time));
     }
 
     return 0;
