@@ -1,11 +1,19 @@
 #include "customer.h"
 
+bool CustomerRules::check(GridSearch* searcher, int id)
+{
+    if(id==OPENSPACE || id==DOORWAY || id==TABLE)
+        return true;
+    return false;
+}
+
+
 Customer::Customer(const int &x, const int &y, const int &id, World* world)
 :Object(x, y, id, world), rules(), world(world)
 {
     GridSearch searcher(world->getGrid(),&rules);
     //path = searcher.BFS(GridSearch::Node(x,y), GridSearch::Node(x+7,y+10));
-    path = searcher.BFS(GridSearch::Node(x,y), GridSearch::NullNode, 3);
+    path = searcher.BFS(GridSearch::Node(x,y), GridSearch::NullNode, TABLE);
 }
 
 Customer::~Customer()

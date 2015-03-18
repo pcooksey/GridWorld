@@ -16,7 +16,7 @@ class Rules {
     public:
         Rules();
         virtual ~Rules();
-        /** Simple @World based search which only approves open spaces */
+        /** Simple @World based search which only approves open spaces and doorways */
         virtual bool check(GridSearch* searcher, int id);
     protected:
 

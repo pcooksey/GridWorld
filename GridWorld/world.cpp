@@ -192,7 +192,7 @@ bool const World::move(Object* object, int x, int y)
     const Map::MultiArray grid = gridMap.getGrid();
     if(x>mapSize.first || y>mapSize.second)
         return false;
-    if(grid[x][y]!=0 && grid[x][y]!=3)
+    if(grid[x][y]!=OPENSPACE && grid[x][y]!=DOORWAY)
         return false;
     for(std::vector<Object*>::iterator it=objects.begin(); it!= objects.end(); it++)
     {

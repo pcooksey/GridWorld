@@ -6,6 +6,21 @@
 #include "object.h"
 #include "gridsearch.h"
 
+/** Customer class will need to make a custom Rules
+    class in order to search and find a table.
+    Look at the example Rules class and ID == table
+    should be set. The customer however will not walk on
+    table since that is stopped by the world class */
+
+using namespace WorldObjects;
+
+class CustomerRules: public Rules
+{
+    public:
+        CustomerRules() { };
+        virtual ~CustomerRules() {};
+        bool check(GridSearch* searcher, int id);
+};
 
 class Customer : public Object
 {
@@ -17,7 +32,7 @@ class Customer : public Object
         void execute();
 
         GridSearch::Path path;
-        Rules rules;
+        CustomerRules rules;
         World* world;
 };
 

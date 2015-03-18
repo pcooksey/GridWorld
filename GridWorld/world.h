@@ -18,7 +18,16 @@ namespace Screen {
     const int SCREEN_BPP = 32;
 }
 
+namespace WorldObjects {
+    const int OPENSPACE = 0;
+    const int WALL = 1;
+    const int TABLE = 2;
+    const int DOORWAY = 3;
+    const int PICKUP = 4;
+}
+
 using namespace Screen;
+using namespace WorldObjects;
 
 class Object;
 

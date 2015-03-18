@@ -17,6 +17,9 @@ Rules::~Rules()
 
 bool Rules::check(GridSearch* searcher, int id)
 {
+    //These numbers are just static for the world even though
+    //the class does not relate to the world. Easier for testing default
+    //then having a pure function
     if(id==0 || id==3)
         return true;
     return false;
@@ -47,10 +50,8 @@ GridSearch::Path GridSearch::BFS(Node start, Node goal, int id)
     {
         Node node = Q.front();
         Q.pop();
-        std::cout<<nodeID(node)<<std::endl;
         if(node==goal || nodeID(node)==id)
         {
-            std::cout<<"Here already";
             while(node!=nully)
             {
                 nodes.push_back(node);
