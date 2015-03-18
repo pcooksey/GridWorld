@@ -89,7 +89,7 @@ int World::screenThread()
 
         // Drawing the map here
         int value;
-        const Map::MultiArray grid = gridMap.getGrid();
+        const Map::MultiArray& grid = gridMap.getGrid();
         SDL_Rect fillRect;
         for(int x=0; x<mapSize.first; x++)
             for(int y=0; y<mapSize.second; y++)
@@ -143,6 +143,9 @@ int World::screenThread()
 
         // Update the world map for next cycle
         updateWorldMap();
+
+        // Allow the world to execute it's own code during the process
+        execute();
 
         //Draw black grid lines
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
@@ -213,11 +216,8 @@ void World::addObject(Object* temp)
 
 void World::removeObject(Object* temp)
 {
-    for(std::vector<Object*>::iterator it=objects.begin(); it!= objects.end(); it++)
-    {
-        if((*it)==temp)
-            objects.erase(it);
-    }
+    std::vector<Object*>::iterator it = std::find (objects.begin(), objects.end(), temp);
+    objects.erase(it);
 }
 
 void World::updateWorldMap()

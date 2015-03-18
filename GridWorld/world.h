@@ -7,6 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
+#include <algorithm>
 
 #include "map.h"
 #include "object.h"
@@ -51,6 +52,8 @@ class World
 
     protected:
         bool const move (Object* object, int x, int y);
+
+        virtual void execute() {};
 
     private:
         /** Creates all SDL components */

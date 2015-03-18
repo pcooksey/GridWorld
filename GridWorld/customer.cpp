@@ -48,6 +48,8 @@ void Customer::execute()
             {
                 GridSearch searcher(world->getGrid(),&rules);
                 path = searcher.DFS(GridSearch::Node(getx(),gety()), GridSearch::NullNode, TABLE);
+                node = path.front();
+                move(node.first,node.second);
             }
         }
     }

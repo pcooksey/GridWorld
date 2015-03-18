@@ -319,22 +319,23 @@
 	"begin_code.h"
 	"close_code.h"
 
-1426710517 source:c:\users\pcooksey\documents\github\gridworld\gridworld\world.cpp
+1426715029 source:c:\users\pcooksey\documents\github\gridworld\gridworld\world.cpp
 	"world.h"
 
-1426709277 c:\users\pcooksey\documents\github\gridworld\gridworld\world.h
+1426715042 c:\users\pcooksey\documents\github\gridworld\gridworld\world.h
 	<SDL.h>
 	<SDL_thread.h>
 	<string>
 	<vector>
 	<iostream>
 	<cmath>
+	<algorithm>
 	"map.h"
 	"object.h"
 
-1426709853 source:c:\users\pcooksey\documents\github\gridworld\gridworld\main.cpp
+1426711633 source:c:\users\pcooksey\documents\github\gridworld\gridworld\main.cpp
 	<SDL.h>
-	"world.h"
+	"cafe.h"
 	"customer.h"
 	<stdlib.h>
 	<time.h>
@@ -356,7 +357,7 @@
 1426617793 source:c:\users\pcooksey\documents\github\gridworld\gridworld\object.cpp
 	"object.h"
 
-1426710441 source:c:\users\pcooksey\documents\github\gridworld\gridworld\customer.cpp
+1426711724 source:c:\users\pcooksey\documents\github\gridworld\gridworld\customer.cpp
 	"customer.h"
 
 1426709277 c:\users\pcooksey\documents\github\gridworld\gridworld\customer.h
@@ -693,4 +694,13 @@
 	<set>
 	<map>
 	"map.h"
+
+1426715254 source:c:\users\pcooksey\documents\github\gridworld\gridworld\cafe.cpp
+	"cafe.h"
+
+1426712950 c:\users\pcooksey\documents\github\gridworld\gridworld\cafe.h
+	<algorithm>
+	<iostream>
+	"world.h"
+	"customer.h"
 
