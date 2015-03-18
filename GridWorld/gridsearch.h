@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <stack>
 #include <algorithm>
 #include <queue>
 #include <set>
@@ -36,8 +37,10 @@ class GridSearch
         GridSearch(const Map& grid, Rules* rules);
         virtual ~GridSearch();
 
-        /** Breath-first search returns a path stored in vector> */
+        /** Breath-first search returns a path stored in vector */
         Path BFS(Node start, Node goal = NullNode, int id = NullID);
+        /** Depth-first search returns a path stored in vector */
+        Path DFS(Node start, Node goal = NullNode, int id = NullID);
 
     protected:
         /** Returns all branches */

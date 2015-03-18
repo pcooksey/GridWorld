@@ -332,7 +332,7 @@
 	"map.h"
 	"object.h"
 
-1426693151 source:c:\users\pcooksey\documents\github\gridworld\gridworld\main.cpp
+1426699693 source:c:\users\pcooksey\documents\github\gridworld\gridworld\main.cpp
 	<SDL.h>
 	"world.h"
 	"customer.h"
@@ -356,7 +356,7 @@
 1426617793 source:c:\users\pcooksey\documents\github\gridworld\gridworld\object.cpp
 	"object.h"
 
-1426693101 source:c:\users\pcooksey\documents\github\gridworld\gridworld\customer.cpp
+1426703906 source:c:\users\pcooksey\documents\github\gridworld\gridworld\customer.cpp
 	"customer.h"
 
 1426693074 c:\users\pcooksey\documents\github\gridworld\gridworld\customer.h
@@ -681,12 +681,13 @@
 	"begin_code.h"
 	"close_code.h"
 
-1426693028 source:c:\users\pcooksey\documents\github\gridworld\gridworld\gridsearch.cpp
+1426705128 source:c:\users\pcooksey\documents\github\gridworld\gridworld\gridsearch.cpp
 	"gridsearch.h"
 
-1426692617 c:\users\pcooksey\documents\github\gridworld\gridworld\gridsearch.h
+1426703411 c:\users\pcooksey\documents\github\gridworld\gridworld\gridsearch.h
 	<iostream>
 	<vector>
+	<stack>
 	<algorithm>
 	<queue>
 	<set>

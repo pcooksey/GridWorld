@@ -13,7 +13,7 @@ Customer::Customer(const int &x, const int &y, const int &id, World* world)
 {
     GridSearch searcher(world->getGrid(),&rules);
     //path = searcher.BFS(GridSearch::Node(x,y), GridSearch::Node(x+7,y+10));
-    path = searcher.BFS(GridSearch::Node(x,y), GridSearch::NullNode, TABLE);
+    path = searcher.DFS(GridSearch::Node(x,y), GridSearch::NullNode, TABLE);
 }
 
 Customer::~Customer()

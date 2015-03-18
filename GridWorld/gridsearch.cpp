@@ -44,15 +44,15 @@ GridSearch::Path GridSearch::BFS(Node start, Node goal, int id)
     std::map<Node, Node> parentsMap;
     Q.push(start);
     discovered.insert(start);
-    Node nully = Node(-1,-1);
-    parentsMap[start] = nully;
+    parentsMap[start] = NullNode;
+    Node node = NullNode;
     while(!Q.empty())
     {
-        Node node = Q.front();
+        node = Q.front();
         Q.pop();
         if(node==goal || nodeID(node)==id)
         {
-            while(node!=nully)
+            while(node!=NullNode)
             {
                 nodes.push_back(node);
                 node = parentsMap[node];
@@ -68,6 +68,46 @@ GridSearch::Path GridSearch::BFS(Node start, Node goal, int id)
                 parentsMap[(*it)] = node;
                 Q.push((*it));
                 discovered.insert((*it));
+            }
+        }
+    }
+    return nodes;
+}
+
+GridSearch::Path GridSearch::DFS(Node start, Node goal, int id)
+{
+    Path nodes;
+    std::stack<Node > Q;
+    std::set<Node > discovered;
+    std::map<Node, Node> parentsMap;
+    parentsMap[start] = NullNode;
+    Q.push(start);
+    Node node = NullNode;
+    while(!Q.empty())
+    {
+        node = Q.top();
+        Q.pop();
+        if(node==goal || nodeID(node)==id)
+        {
+            std::cout<<"Found goal!"<<std::endl;
+            while(node!=NullNode)
+            {
+                nodes.push_back(node);
+                node = parentsMap[node];
+            }
+            std::reverse(nodes.begin(),nodes.end());
+            return nodes;
+        }
+        if(discovered.find(node) == discovered.end())
+        {
+            std::cout<<node.first<<":"<<node.second<<"("<<nodeID(node)<<")"<<std::endl;
+            discovered.insert(node);
+            Path edges = getBranches(node);
+            for(Path::iterator it=edges.begin(); it!=edges.end(); it++)
+            {
+                if(parentsMap.find((*it))==parentsMap.end())
+                    parentsMap[(*it)] = node;
+                Q.push((*it));
             }
         }
     }
