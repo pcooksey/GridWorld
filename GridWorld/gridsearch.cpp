@@ -28,7 +28,10 @@ bool Rules::check(GridSearch* searcher, int id)
 GridSearch::GridSearch(const Map& grid, Rules* rules)
  :grid(grid),rules(rules)
 {
-    //ctor
+    start = NullNode;
+    goal = NullNode;
+    current = NullNode;
+    id = NullID;
 }
 
 GridSearch::~GridSearch()
@@ -38,6 +41,9 @@ GridSearch::~GridSearch()
 
 GridSearch::Path GridSearch::BFS(Node start, Node goal, int id)
 {
+    this->start = start;
+    this->goal = goal;
+    this->id = id;
     Path nodes;
     std::queue<Node > Q;
     std::set<Node > discovered;
@@ -49,6 +55,7 @@ GridSearch::Path GridSearch::BFS(Node start, Node goal, int id)
     while(!Q.empty())
     {
         node = Q.front();
+        this->current = node;
         Q.pop();
         if(node==goal || nodeID(node)==id)
         {
@@ -76,6 +83,9 @@ GridSearch::Path GridSearch::BFS(Node start, Node goal, int id)
 
 GridSearch::Path GridSearch::DFS(Node start, Node goal, int id)
 {
+    this->start = start;
+    this->goal = goal;
+    this->id = id;
     Path nodes;
     std::stack<Node > Q;
     std::set<Node > discovered;
@@ -86,10 +96,10 @@ GridSearch::Path GridSearch::DFS(Node start, Node goal, int id)
     while(!Q.empty())
     {
         node = Q.top();
+        this->current = node;
         Q.pop();
         if(node==goal || nodeID(node)==id)
         {
-            std::cout<<"Found goal!"<<std::endl;
             while(node!=NullNode)
             {
                 nodes.push_back(node);
@@ -100,7 +110,6 @@ GridSearch::Path GridSearch::DFS(Node start, Node goal, int id)
         }
         if(discovered.find(node) == discovered.end())
         {
-            std::cout<<node.first<<":"<<node.second<<"("<<nodeID(node)<<")"<<std::endl;
             discovered.insert(node);
             Path edges = getBranches(node);
             for(Path::iterator it=edges.begin(); it!=edges.end(); it++)

@@ -48,6 +48,13 @@ class GridSearch
         /** Returns the @id of the @node */
         int nodeID(Node node);
 
+        /** These values are set by search functions and can be used
+            by the Rules class to determine case based reasoning */
+        Node start;
+        Node goal;
+        Node current;
+        int id;
+
     private:
         const Map& grid;
         Rules* rules;
