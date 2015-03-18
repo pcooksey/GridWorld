@@ -2,9 +2,9 @@
 ## Code::Blocks  
 #################  
 
-*.depend  
-*.layout 
-*.cscope_file_list
+.depend  
+.layout 
+.cscope_file_list
 
 
 #################
@@ -222,3 +222,4 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+*.depend
