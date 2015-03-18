@@ -2,8 +2,18 @@
 
 bool CustomerRules::check(GridSearch* searcher, int id)
 {
-    if(id==OPENSPACE || id==DOORWAY || id==TABLE)
-        return true;
+    if(getGoal(searcher)==GridSearch::NullNode) {
+        if(id==OPENSPACE || id==DOORWAY || id==TABLE)
+            return true;
+    } else {
+        if(id==OPENSPACE || id==DOORWAY)
+            return true;
+        if(id==TABLE)
+        {
+            if(getGoal(searcher)==getCurrent(searcher))
+                return true;
+        }
+    }
     return false;
 }
 
@@ -12,8 +22,8 @@ Customer::Customer(const int &x, const int &y, const int &id, World* world)
 :Object(x, y, id, world), rules(), world(world)
 {
     GridSearch searcher(world->getGrid(),&rules);
-    //path = searcher.BFS(GridSearch::Node(x,y), GridSearch::Node(x+7,y+10));
-    path = searcher.DFS(GridSearch::Node(x,y), GridSearch::NullNode, TABLE);
+    path = searcher.DFS(GridSearch::Node(x,y), GridSearch::Node(x-6,y-4));
+    //path = searcher.DFS(GridSearch::Node(x,y), GridSearch::NullNode, TABLE);
 }
 
 Customer::~Customer()

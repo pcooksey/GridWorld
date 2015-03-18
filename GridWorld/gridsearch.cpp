@@ -5,6 +5,12 @@ const int GridSearch::NoID = -1;
 const int GridSearch::NullID = -2;
 const GridSearch::Node GridSearch::NullNode = GridSearch::Node(-1,-1);
 
+/**
+*
+*    Rule class functions
+*
+*/
+
 Rules::Rules()
 {
 
@@ -24,6 +30,24 @@ bool Rules::check(GridSearch* searcher, int id)
         return true;
     return false;
 }
+
+Rules::Node Rules::getStart(GridSearch* searcher)
+{ return searcher->start; }
+
+Rules::Node Rules::getGoal(GridSearch* searcher)
+{ return searcher->goal; }
+
+Rules::Node Rules::getCurrent(GridSearch* searcher)
+{ return searcher->current; }
+
+int Rules::getId(GridSearch* searcher)
+{ return searcher->id; }
+
+/**
+*
+*    Grid search class functions
+*
+*/
 
 GridSearch::GridSearch(const Map& grid, Rules* rules)
  :grid(grid),rules(rules)

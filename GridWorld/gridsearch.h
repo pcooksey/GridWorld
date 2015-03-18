@@ -15,13 +15,22 @@ class GridSearch;
 
 class Rules {
     public:
+        typedef std::pair<int, int> Node;
+
         Rules();
         virtual ~Rules();
         /** Simple @World based search which only approves open spaces and doorways */
         virtual bool check(GridSearch* searcher, int id);
     protected:
 
-        friend class GridSearch;
+        /** Gets the @start node for the search */
+        Node getStart(GridSearch* searcher);
+        /** Gets the @goal node for the search */
+        Node getGoal(GridSearch* searcher);
+        /** Gets the @current node for the search */
+        Node getCurrent(GridSearch* searcher);
+        /** Gets the @id for the search */
+        int getId(GridSearch* searcher);
 };
 
 class GridSearch
@@ -58,6 +67,8 @@ class GridSearch
     private:
         const Map& grid;
         Rules* rules;
+
+        friend class Rules;
 };
 
 #endif // GRIDSEARCH_H
