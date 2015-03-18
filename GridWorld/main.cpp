@@ -10,8 +10,9 @@ int main( int argc, char* args[] )
     srand (time(NULL));
     World world("map.dd");
     Customer first(19,5,6,&world);
-    first.load_image("images/human1.bmp");
+    Customer second(19,4,6,&world);
     world.addObject(&first);
+    world.addObject(&second);
     if(world.successful()==false)
         return 1;
     world.start();

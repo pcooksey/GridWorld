@@ -21,9 +21,10 @@ bool CustomerRules::check(GridSearch* searcher, int id)
 Customer::Customer(const int &x, const int &y, const int &id, World* world)
 :Object(x, y, id, world), rules(), world(world)
 {
+    load_image("images/human1.bmp");
     GridSearch searcher(world->getGrid(),&rules);
-    path = searcher.DFS(GridSearch::Node(x,y), GridSearch::Node(x-6,y-4));
-    //path = searcher.DFS(GridSearch::Node(x,y), GridSearch::NullNode, TABLE);
+    //path = searcher.DFS(GridSearch::Node(x,y), GridSearch::Node(x-6,y-4));
+    path = searcher.DFS(GridSearch::Node(x,y), GridSearch::NullNode, TABLE);
 }
 
 Customer::~Customer()
@@ -40,6 +41,14 @@ void Customer::execute()
         if(move(node.first,node.second))
         {
             path.erase(path.begin());
+        } else {
+            //If path size == 1 then we are at the table. Otherwise
+            //something got in the customers way so re-plan path
+            if(path.size()!=1)
+            {
+                GridSearch searcher(world->getGrid(),&rules);
+                path = searcher.DFS(GridSearch::Node(getx(),gety()), GridSearch::NullNode, TABLE);
+            }
         }
     }
 }
