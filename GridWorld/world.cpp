@@ -192,7 +192,7 @@ bool const World::move(Object* object, int x, int y)
     const Map::MultiArray grid = gridMap.getGrid();
     if(x>mapSize.first || y>mapSize.second)
         return false;
-    if(grid[x][y]!=0)
+    if(grid[x][y]!=0 && grid[x][y]!=3)
         return false;
     for(std::vector<Object*>::iterator it=objects.begin(); it!= objects.end(); it++)
     {
@@ -222,9 +222,10 @@ void World::removeObject(Object* temp)
 
 void World::updateWorldMap()
 {
-    worldMap = gridMap.getGrid();
+    worldMap = gridMap;
+    Map::MultiArray wMap = worldMap.getOpenGrid();
     for(std::vector<Object*>::iterator it=objects.begin(); it!= objects.end(); it++)
     {
-        worldMap[(*it)->x][(*it)->y] = (*it)->id;
+        wMap[(*it)->x][(*it)->y] = (*it)->id;
     }
 }

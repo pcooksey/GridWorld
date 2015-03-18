@@ -28,4 +28,5 @@ bool Map::open(std::string fileName)
             file>>value;
             grid[x][y] = value;
         }
+    return true;
 }

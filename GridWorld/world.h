@@ -38,7 +38,7 @@ class World
         /** Get the @gridMap for searching */
         const Map& getGrid() {return gridMap;};
         /** Get the @worldMap for searching */
-        const Map::MultiArray& getWorldMap() {return worldMap;};
+        const Map::MultiArray& getWorldMap() {return worldMap.getGrid();};
 
     protected:
         bool const move (Object* object, int x, int y);
@@ -74,7 +74,7 @@ class World
         /** Map of the world */
         Map gridMap;
         /** Map of everything in world (includes objects) */
-        Map::MultiArray worldMap;
+        Map worldMap;
 
         std::vector<Object*> objects;
 

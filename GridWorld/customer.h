@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "object.h"
+#include "gridsearch.h"
 
 
 class Customer : public Object
@@ -15,6 +16,8 @@ class Customer : public Object
     private:
         void execute();
 
+        GridSearch::Path path;
+        Rules rules;
         World* world;
 };
 
