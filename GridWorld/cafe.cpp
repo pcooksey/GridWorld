@@ -21,6 +21,7 @@ void Cafe::start()
     findDoors();
     createCustomer();
     createCustomer();
+    createRobotWaiter();
     return World::start();
 }
 
@@ -50,7 +51,7 @@ void Cafe::findDoors()
         {
             value = grid[x][y];
             switch(value) {
-                case 3: // Door ways
+                case WorldObjects::DOORWAY: // Door ways
                     doorways.push_back(Node(x,y));
                     break;
                 default:
@@ -68,7 +69,14 @@ Cafe::Node Cafe::getADoor()
 void Cafe::createCustomer()
 {
     Node node = getADoor();
-    Customer* customer = new Customer(node.first,node.second,6,this);
+    Customer* customer = new Customer(node.first,node.second,WorldObjects::CUSTOMER,this);
     customers.push_back(customer);
     addObject(customer);
+}
+
+void Cafe::createRobotWaiter()
+{
+    RobotWaiter* robot = new RobotWaiter(9,9,WorldObjects::ROBOTWAITER,this);
+    robotwaiters.push_back(robot);
+    addObject(robot);
 }

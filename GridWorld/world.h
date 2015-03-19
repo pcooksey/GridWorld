@@ -48,6 +48,8 @@ class World
         /** Get the @gridMap for searching */
         const Map& getGrid() {return gridMap;};
         /** Get the @worldMap for searching */
+        const Map& getWorldGrid() {return worldMap;};
+        /** Get the @worldMap for searching */
         const Map::MultiArray& getWorldMap() {return worldMap.getGrid();};
 
     protected:

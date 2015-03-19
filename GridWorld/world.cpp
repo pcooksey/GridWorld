@@ -96,20 +96,20 @@ int World::screenThread()
             {
                 value = grid[x][y];
                 switch(value) {
-                    case 4: // Pick-up food zone
+                    case PICKUP: // Pick-up food zone
                         SDL_SetRenderDrawColor( renderer, 0xff, 0x00, 0x00, 0x00 );
                         break;
-                    case 3: // Door ways
+                    case DOORWAY: // Door ways
                         SDL_SetRenderDrawColor( renderer, 0xff, 0xff, 0xff, 0x00 );
                         break;
-                    case 2: // Tables
+                    case TABLE: // Tables
                         //5C4033
                         SDL_SetRenderDrawColor( renderer, 0x66, 0x33, 0x00, 0xff );
                         break;
-                    case 1: // Walls
+                    case WALL: // Walls
                         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0x00 );
                         break;
-                    case 0: // Open space
+                    case OPENSPACE: // Open space
                     default:
                         SDL_SetRenderDrawColor( renderer, 0xd3, 0xd3, 0xd3, 0xd3 );
                 }
@@ -223,7 +223,7 @@ void World::removeObject(Object* temp)
 void World::updateWorldMap()
 {
     worldMap = gridMap;
-    Map::MultiArray wMap = worldMap.getOpenGrid();
+    Map::MultiArray& wMap = worldMap.getOpenGrid();
     for(std::vector<Object*>::iterator it=objects.begin(); it!= objects.end(); it++)
     {
         wMap[(*it)->x][(*it)->y] = (*it)->id;
