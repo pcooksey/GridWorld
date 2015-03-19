@@ -29,6 +29,16 @@ RobotWaiter::~RobotWaiter()
     //dtor
 }
 
+/**
+
+    TODO RobotWaiter need to only server each customer once and then
+    go to the new customer. It needs to dynamically search for the customer
+    so it doesn't waste time going to where the customer used to be.
+    This is a difficult problem. Even more difficult will be devising a way for
+    multiple of these robots to coordinate with each other.
+
+*/
+
 void RobotWaiter::execute()
 {
     if(path.empty())
