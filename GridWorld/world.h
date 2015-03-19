@@ -53,9 +53,13 @@ class World
         const Map::MultiArray& getWorldMap() {return worldMap.getGrid();};
 
     protected:
+        /** Object will call this in order to move the object */
         bool const move (Object* object, int x, int y);
-
+        /** Every frame will call this function for the world to compute its work */
         virtual void execute() {};
+        /** Set the world time speed */
+        void setWorldTimeSpeed(int time) { timeSpeed = time; };
+
 
     private:
         /** Creates all SDL components */
@@ -77,6 +81,8 @@ class World
         bool running;
         /** The protective semaphore for @running */
         SDL_sem *runLock;
+        /** World time speed */
+        int timeSpeed;
 
         /** SDL window for world */
         SDL_Window* window;

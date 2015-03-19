@@ -8,6 +8,7 @@ World::World(std::string fileName)
     renderer = NULL;
     success = init();
     gridMap.open(fileName);
+    timeSpeed = 50;
 }
 
 World::~World()
@@ -168,7 +169,7 @@ int World::screenThread()
         time = (SDL_GetTicks() - delta);
         //std::cout<<time<<std::endl;
         //Offset time computing with delay time for making it slower
-        SDL_Delay(fdim(50,time));
+        SDL_Delay(fdim(timeSpeed,time));
     }
 
     return 0;
