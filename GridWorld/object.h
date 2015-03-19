@@ -26,6 +26,8 @@ class Object
         void setColor(int red, int blue, int green, int alpha);
         /** Sets the @bodyImage for the object in the world */
         void load_image( std::string filename );
+        /** Set the @bodyImage with a texture (used for animation) */
+        void set_image(SDL_Surface* image);
     protected:
         /** Attempt to move the object in the world */
         bool move(int x, int y);

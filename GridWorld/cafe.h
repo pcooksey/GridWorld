@@ -7,12 +7,14 @@
 #include "world.h"
 #include "customer.h"
 #include "robotwaiter.h"
+#include "conveyorbelt.h"
 
 class RobotWaiter;
 
 namespace WorldObjects {
     const int CUSTOMER = 6;
     const int ROBOTWAITER = 7;
+    const int CONVEYORBELT = 10;
 }
 
 class Cafe : public World
@@ -33,6 +35,7 @@ class Cafe : public World
     private:
 
         const Map& gridMap;
+        ConveyorBelt belt;
         std::vector<Node > doorways;
         std::vector<Customer*> customers;
         std::vector<RobotWaiter*> robotwaiters;

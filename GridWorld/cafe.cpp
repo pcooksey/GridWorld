@@ -1,7 +1,7 @@
 #include "cafe.h"
 
 Cafe::Cafe(std::string fileName)
-:World(fileName), gridMap(getGrid())
+:World(fileName), gridMap(getGrid()), belt(CONVEYORBELT,this)
 {
     //ctor
 }
@@ -22,6 +22,7 @@ void Cafe::start()
     createCustomer();
     createCustomer();
     createRobotWaiter();
+    belt.start();
     return World::start();
 }
 
@@ -31,6 +32,7 @@ void Cafe::execute()
     {
         createCustomer();
     }
+    belt.execute();
     /*
     if(!customers.empty())
     {

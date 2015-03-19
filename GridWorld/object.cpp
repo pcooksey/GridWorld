@@ -45,3 +45,15 @@ bool Object::move(int x, int y)
         SDL_FreeSurface( loadedImage );
     }
 }
+
+void Object::set_image(SDL_Surface* image)
+{
+    SDL_Surface* loadedImage = image;
+    if( loadedImage != NULL )
+    {
+        //Color key image
+		SDL_SetColorKey( loadedImage, SDL_TRUE, SDL_MapRGB( loadedImage->format, 0xFF, 0xFF, 0xFF ) );
+        bodyImage = SDL_CreateTextureFromSurface( world->renderer, loadedImage );
+        assert(bodyImage!=NULL);
+    }
+}
