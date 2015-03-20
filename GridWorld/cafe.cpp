@@ -23,6 +23,7 @@ void Cafe::start()
     createCustomer();
     createRobotWaiter();
     belt.start();
+    //belt.addFood(WorldObjects::HAMBURGER);
     return World::start();
 }
 
@@ -30,6 +31,7 @@ void Cafe::execute()
 {
     if(rand()%20==0)
     {
+        //belt.addFood(WorldObjects::HAMBURGER);
         createCustomer();
     }
     belt.execute();

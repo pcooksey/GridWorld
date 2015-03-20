@@ -8,6 +8,8 @@ World::World(std::string fileName)
     renderer = NULL;
     success = init();
     gridMap.open(fileName);
+    //Need to copy gridMap to worldMap
+    updateWorldMap();
     timeSpeed = 50;
 }
 

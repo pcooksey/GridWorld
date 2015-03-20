@@ -22,6 +22,9 @@ Customer::Customer(const int &x, const int &y, const int &id, World* world)
 :Object(x, y, id, world), rules(), world(world)
 {
     load_image("images/human1.bmp");
+    //Noticed that I am using the grid without any objects
+    //Behavior changes with world->getWorldGrid() however I should
+    //change it to this eventually
     GridSearch searcher(world->getGrid(),&rules);
     //path = searcher.DFS(GridSearch::Node(x,y), GridSearch::Node(x-6,y-4));
     path = searcher.DFS(GridSearch::Node(x,y), GridSearch::NullNode, TABLE);
