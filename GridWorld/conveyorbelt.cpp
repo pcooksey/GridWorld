@@ -40,10 +40,10 @@ void ConveyorBelt::execute()
     for(std::vector<Conveyor*>::iterator it=belt.begin(); it!=belt.end(); it++)
     {
         (*it)->execute();
-        if(food[foodNum]==11)//Hamburger need to figure out way to get global namespace to work
+        if(food[foodNum]==WorldObjects::HAMBURGER)
         {
-            hamburgers.push_back(new Hamburger((*it)->getx(),(*it)->gety(),11, world));
-            world->addObject(hamburgers.back());
+            objects.push_back(new Hamburger((*it)->getx(),(*it)->gety(),WorldObjects::HAMBURGER, world));
+            world->addObject(objects.back());
         } else {
 
         }
@@ -65,12 +65,12 @@ bool ConveyorBelt::addFood(int foodNum)
 void ConveyorBelt::clearFood()
 {
 
-    for(std::vector<Hamburger*>::iterator it=hamburgers.begin(); it!=hamburgers.end(); it++)
+    for(std::vector<Object*>::iterator it=objects.begin(); it!=objects.end(); it++)
     {
         world->removeObject((*it));
         delete (*it);
     }
-    hamburgers.clear();
+    objects.clear();
 }
 
 void ConveyorBelt::rotateFood()

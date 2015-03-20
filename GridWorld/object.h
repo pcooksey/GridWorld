@@ -21,6 +21,7 @@ class Object
 
         int getx() const { return x; }
         int gety() const { return y; }
+        int getId() const { return id; }
 
         /** Sets the @color for the object in the world */
         void setColor(int red, int blue, int green, int alpha);
