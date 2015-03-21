@@ -40,8 +40,14 @@ Rules::Node Rules::getGoal(GridSearch* searcher)
 Rules::Node Rules::getCurrent(GridSearch* searcher)
 { return searcher->current; }
 
+Rules::Node Rules::getChecking(GridSearch* searcher)
+{ return searcher->checking; }
+
 int Rules::getId(GridSearch* searcher)
 { return searcher->id; }
+
+Rules::IDs Rules::getBranchesIDs(GridSearch* searcher, Node node)
+{ return searcher->getBranchesIDs(node); }
 
 /**
 *
@@ -55,6 +61,7 @@ GridSearch::GridSearch(const Map& grid, Rules* rules)
     start = NullNode;
     goal = NullNode;
     current = NullNode;
+    checking = NullNode;
     id = NullID;
 }
 
@@ -153,15 +160,36 @@ GridSearch::Path GridSearch::getBranches(Node node)
     int x=node.first, y=node.second;
     // Directions don't matter since this is graph searching so names are meaningless
     Node top(x-1,y), bottom(x+1,y), left(x,y+1), right(x,y-1);
+    checking=top;
     if(rules->check(this, nodeID(top)))
         nodes.push_back(top);
+    checking=bottom;
     if(rules->check(this, nodeID(bottom)))
         nodes.push_back(bottom);
+    checking=left;
     if(rules->check(this, nodeID(left)))
         nodes.push_back(left);
+    checking=right;
     if(rules->check(this, nodeID(right)))
         nodes.push_back(right);
     std::random_shuffle ( nodes.begin(), nodes.end() );
+    return nodes;
+}
+
+GridSearch::IDs GridSearch::getBranchesIDs(Node node)
+{
+    IDs nodes;
+    int x=node.first, y=node.second;
+    // Directions don't matter since this is graph searching so names are meaningless
+    Node top(x-1,y), bottom(x+1,y), left(x,y+1), right(x,y-1);
+    if(nodeID(top)!=NoID)
+        nodes.push_back(nodeID(top));
+    if(nodeID(bottom)!=NoID)
+        nodes.push_back(nodeID(bottom));
+    if(nodeID(left)!=NoID)
+        nodes.push_back(nodeID(left));
+    if(nodeID(right)!=NoID)
+        nodes.push_back(nodeID(right));
     return nodes;
 }
 

@@ -19,7 +19,7 @@ bool CustomerRules::check(GridSearch* searcher, int id)
 
 
 Customer::Customer(const int &x, const int &y, const int &id, World* world)
-:Object(x, y, id, world), rules(), world(world)
+:Object(x, y, id, world), orderRandomTime(rand()%10+1), rules(), world(world)
 {
     load_image("images/human1.bmp");
     //Noticed that I am using the grid without any objects
@@ -55,5 +55,16 @@ void Customer::execute()
                 move(node.first,node.second);
             }
         }
+    }
+}
+
+int Customer::askForOrder()
+{
+    if(orderRandomTime<=0)
+    {
+        return WorldObjects::HAMBURGER;
+    } else {
+        orderRandomTime--;
+        return -1;
     }
 }
