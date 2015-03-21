@@ -15,8 +15,11 @@ class ConveyorBelt
         ConveyorBelt(const int &id, World* world);
         virtual ~ConveyorBelt();
 
+        /** Starts the conveyor belt by creating the objects */
         void start();
+        /** Moves the food down the conveyor belt */
         void execute();
+        /** Adds food to the conveyor belt */
         bool addFood(int food);
     protected:
     private:

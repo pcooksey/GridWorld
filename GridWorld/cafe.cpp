@@ -3,7 +3,7 @@
 Cafe::Cafe(std::string fileName)
 :World(fileName), gridMap(getGrid()), belt(CONVEYORBELT,this), kitchen(KITCHENCOUNTER,this)
 {
-    //ctor
+    setWorldTimeSpeed(50);
 }
 
 Cafe::~Cafe()
@@ -18,12 +18,17 @@ bool Cafe::successful()
 
 void Cafe::start()
 {
+    //Find objects TODO: going to need to find table seats to make robot search quicker
     findDoors();
+    // Create inanimate objects
+    belt.start();
+    kitchen.start();
+    //Create real moving things
+    chef = new Chef(4,14,CHEF,this);
+    addObject(chef);
     createCustomer();
     createCustomer();
     createRobotWaiter();
-    belt.start();
-    kitchen.start();
     //kitchen.addFood(WorldObjects::HAMBURGER);
     //belt.addFood(WorldObjects::HAMBURGER);
     return World::start();
@@ -37,6 +42,7 @@ void Cafe::execute()
         createCustomer();
     }
     belt.execute();
+    kitchen.execute();
     /*
     if(!customers.empty())
     {

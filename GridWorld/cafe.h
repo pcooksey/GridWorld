@@ -7,6 +7,7 @@
 #include "world.h"
 #include "cafeobjects.h"
 #include "customer.h"
+#include "chef.h"
 #include "robotwaiter.h"
 #include "conveyorbelt.h"
 #include "kitchen.h"
@@ -33,6 +34,7 @@ class Cafe : public World
         const Map& gridMap;
         ConveyorBelt belt;
         Kitchen kitchen;
+        Chef* chef;
         std::vector<Node > doorways;
         std::vector<Customer*> customers;
         std::vector<RobotWaiter*> robotwaiters;

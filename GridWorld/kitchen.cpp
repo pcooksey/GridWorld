@@ -26,11 +26,27 @@ void Kitchen::start()
         world->addObject((*it));
     }
     food.resize(counters.size(),0);
+    foodTimes.resize(counters.size(),0);
 }
 
-void Kitchen::execute()
+int Kitchen::execute()
 {
-
+    int iteratorNum = 0;
+    for(std::vector<int>::iterator it=foodTimes.begin(); it!=foodTimes.end(); it++, iteratorNum++)
+    {
+        if(food[iteratorNum]!=0)
+        {
+            (*it)++;
+            if((*it)>=15)
+            {
+                Object* object = objects[iteratorNum];
+                world->removeObject(object);
+                objects.erase(std::find(objects.begin(),objects.end(),object));
+                delete object;
+                food[iteratorNum] = 0;
+            }
+        }
+    }
 }
 
 bool Kitchen::addFood(int foodNum)
