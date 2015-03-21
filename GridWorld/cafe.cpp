@@ -29,8 +29,7 @@ void Cafe::start()
     createCustomer();
     createCustomer();
     createRobotWaiter();
-    //kitchen.addFood(WorldObjects::HAMBURGER);
-    //belt.addFood(WorldObjects::HAMBURGER);
+    updateWorldMap();
     return World::start();
 }
 
@@ -38,19 +37,10 @@ void Cafe::execute()
 {
     if(rand()%20==0)
     {
-        //belt.addFood(WorldObjects::HAMBURGER);
         createCustomer();
     }
     belt.execute();
     kitchen.execute();
-    /*
-    if(!customers.empty())
-    {
-        removeObject(customers.front());
-        delete (*customers.begin());
-        customers.erase(customers.begin());
-    }
-    */
 }
 
 void Cafe::findDoors()

@@ -16,6 +16,7 @@ class GridSearch;
 class Rules {
     public:
         typedef std::pair<int, int> Node;
+        typedef std::vector<int> IDs;
 
         Rules();
         virtual ~Rules();
@@ -29,8 +30,12 @@ class Rules {
         Node getGoal(GridSearch* searcher);
         /** Gets the @current node for the search */
         Node getCurrent(GridSearch* searcher);
+        /** Gets the @checking node for the search */
+        Node getChecking(GridSearch* searcher);
         /** Gets the @id for the search */
         int getId(GridSearch* searcher);
+        /** Gets the @id of the branches to a node */
+        IDs getBranchesIDs(GridSearch* searcher, Node node);
 };
 
 class GridSearch
@@ -38,6 +43,7 @@ class GridSearch
     public:
         typedef std::pair<int, int> Node;
         typedef std::vector<Node > Path;
+        typedef std::vector<int> IDs;
         /** static variable for NoID */
         const static int NoID;
         const static int NullID;
@@ -52,8 +58,10 @@ class GridSearch
         Path DFS(Node start, Node goal = NullNode, int id = NullID);
 
     protected:
-        /** Returns all branches */
+        /** Returns all branches with checks from rules */
         Path getBranches(Node node);
+        /** Returns all branches ids (to be used by rules) */
+        IDs getBranchesIDs(Node node);
         /** Returns the @id of the @node */
         int nodeID(Node node);
 
@@ -62,6 +70,7 @@ class GridSearch
         Node start;
         Node goal;
         Node current;
+        Node checking;
         int id;
 
     private:
