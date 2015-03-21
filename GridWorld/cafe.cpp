@@ -1,14 +1,19 @@
 #include "cafe.h"
 
 Cafe::Cafe(std::string fileName)
-:World(fileName), gridMap(getGrid()), belt(CONVEYORBELT,this), kitchen(KITCHENCOUNTER,this)
+:World(fileName), gridMap(getGrid()), belt(CONVEYORBELT,this)
 {
     setWorldTimeSpeed(50);
 }
 
 Cafe::~Cafe()
 {
-    //dtor
+    delete kitchen;
+    delete chef;
+    for(std::vector<Customer*>::iterator it=customers.begin(); it!=customers.end(); it++)
+        delete (*it);
+    for(std::vector<RobotWaiter*>::iterator it=robotwaiters.begin(); it!=robotwaiters.end(); it++)
+        delete (*it);
 }
 
 bool Cafe::successful()
@@ -22,7 +27,8 @@ void Cafe::start()
     findDoors();
     // Create inanimate objects
     belt.start();
-    kitchen.start();
+    kitchen = new Kitchen(KITCHENCOUNTER,this);
+    kitchen->start();
     //Create real moving things
     chef = new Chef(4,14,CHEF,this);
     addObject(chef);
@@ -40,7 +46,14 @@ void Cafe::execute()
         createCustomer();
     }
     belt.execute();
-    kitchen.execute();
+    if(!orders.empty())
+    {
+        if(kitchen->addFood(orders.front()))
+        {
+            orders.erase(orders.begin());
+        }
+    }
+    kitchen->execute();
 }
 
 void Cafe::findDoors()

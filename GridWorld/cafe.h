@@ -13,6 +13,7 @@
 #include "kitchen.h"
 
 class RobotWaiter;
+class Kitchen;
 
 class Cafe : public World
 {
@@ -33,7 +34,7 @@ class Cafe : public World
 
         const Map& gridMap;
         ConveyorBelt belt;
-        Kitchen kitchen;
+        Kitchen* kitchen;
         Chef* chef;
         std::vector<int> orders;
         std::vector<Node > doorways;
@@ -41,6 +42,7 @@ class Cafe : public World
         std::vector<RobotWaiter*> robotwaiters;
 
         friend class RobotWaiter;
+        friend class Kitchen;
 };
 
 #endif // CAFE_H

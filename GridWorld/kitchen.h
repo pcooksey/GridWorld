@@ -5,9 +5,12 @@
 #include <algorithm>
 #include <iterator>
 
+#include "cafe.h"
 #include "cafeobjects.h"
 #include "kitchencounter.h"
 #include "hamburger.h"
+
+class Cafe;
 
 class Kitchen
 {
@@ -16,8 +19,8 @@ class Kitchen
         virtual ~Kitchen();
         /** Starts the kitchen by creating the counter */
         void start();
-        /** Returns the id of a finished cooked food */
-        int execute();
+        /** Cooks the food and adds to conveyor belt when done */
+        void execute();
         /** Adds food to counter if there is space otherwise returns false */
         bool addFood(int food);
     protected:
@@ -30,6 +33,7 @@ class Kitchen
 
         int id;
         World* world;
+        Cafe* cafe;
 };
 
 #endif // KITCHEN_H

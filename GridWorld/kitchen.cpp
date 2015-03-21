@@ -3,7 +3,7 @@
 Kitchen::Kitchen(const int &id, World* world)
 :id(id), world(world)
 {
-    //ctor
+    cafe = static_cast<Cafe*>(world);
 }
 
 Kitchen::~Kitchen()
@@ -29,7 +29,7 @@ void Kitchen::start()
     foodTimes.resize(counters.size(),0);
 }
 
-int Kitchen::execute()
+void Kitchen::execute()
 {
     int iteratorNum = 0;
     for(std::vector<int>::iterator it=foodTimes.begin(); it!=foodTimes.end(); it++, iteratorNum++)
@@ -37,13 +37,17 @@ int Kitchen::execute()
         if(food[iteratorNum]!=0)
         {
             (*it)++;
-            if((*it)>=15)
+            if((*it)>=10)
             {
-                Object* object = objects[iteratorNum];
-                world->removeObject(object);
-                objects.erase(std::find(objects.begin(),objects.end(),object));
-                delete object;
-                food[iteratorNum] = 0;
+                if(cafe->belt.addFood(food[iteratorNum]) || (*it)>=15)
+                {
+                    Object* object = objects[iteratorNum];
+                    world->removeObject(object);
+                    objects.erase(std::find(objects.begin(),objects.end(),object));
+                    delete object;
+                    food[iteratorNum] = 0;
+                    (*it)=0;
+                }
             }
         }
     }
