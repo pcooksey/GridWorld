@@ -1,8 +1,6 @@
 #ifndef ROBOTWAITER_H
 #define ROBOTWAITER_H
 
-#include <math.h>
-
 #include "object.h"
 #include "gridsearch.h"
 #include "cafe.h"
@@ -28,9 +26,8 @@ class RobotWaiter : public Object
     private:
         void execute();
         Customer* getClosestCustomer();
-        Customer* findCustomer(const int& x, const int& y);
 
-        std::vector<Customer*>* customers;
+        std::vector<Customer*> customers;
         std::vector<Customer*> visited;
 
         GridSearch::Path path;

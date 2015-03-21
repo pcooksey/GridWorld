@@ -35,7 +35,6 @@ class Cafe : public World
         ConveyorBelt belt;
         Kitchen kitchen;
         Chef* chef;
-        std::vector<int> orders;
         std::vector<Node > doorways;
         std::vector<Customer*> customers;
         std::vector<RobotWaiter*> robotwaiters;

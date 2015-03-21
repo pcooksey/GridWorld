@@ -59,8 +59,7 @@ class World
         virtual void execute() {};
         /** Set the world time speed */
         void setWorldTimeSpeed(int time) { timeSpeed = time; };
-         /** Updates the @worldMap */
-        void updateWorldMap();
+
 
     private:
         /** Creates all SDL components */
@@ -73,6 +72,8 @@ class World
         void setRunning(bool run);
         /** Thread protected to get @running */
         bool getRunning();
+        /** Updates the @worldMap */
+        void updateWorldMap();
 
         /** Is true when the init was successful */
         bool success;

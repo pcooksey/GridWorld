@@ -5,7 +5,6 @@
 
 #include "object.h"
 #include "gridsearch.h"
-#include "cafeobjects.h"
 
 using namespace WorldObjects;
 
@@ -22,12 +21,10 @@ class Customer : public Object
     public:
         Customer(const int &x, const int &y, const int &id, World* world);
         virtual ~Customer();
-        int askForOrder();
     protected:
     private:
         void execute();
 
-        int orderRandomTime;
         GridSearch::Path path;
         CustomerRules rules;
         World* world;
