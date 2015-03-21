@@ -80,7 +80,7 @@ void ConveyorBelt::rotateFood()
     {
         next = it;
         next++;
-        if((*it)==0)
+        if((*it)==0 && next!=food.rend())
         {
             (*it)=(*next);
             (*next)=0;
