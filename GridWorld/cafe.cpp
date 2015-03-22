@@ -10,6 +10,7 @@ Cafe::~Cafe()
 {
     delete kitchen;
     delete chef;
+    delete robotArm;
     for(std::vector<Customer*>::iterator it=customers.begin(); it!=customers.end(); it++)
         delete (*it);
     for(std::vector<RobotWaiter*>::iterator it=robotwaiters.begin(); it!=robotwaiters.end(); it++)
@@ -35,6 +36,8 @@ void Cafe::start()
     createCustomer();
     createCustomer();
     createRobotWaiter();
+    createRobotArm();
+
     updateWorldMap();
     return World::start();
 }
@@ -94,4 +97,10 @@ void Cafe::createRobotWaiter()
     RobotWaiter* robot = new RobotWaiter(9,9,WorldObjects::ROBOTWAITER,this);
     robotwaiters.push_back(robot);
     addObject(robot);
+}
+
+void Cafe::createRobotArm()
+{
+    robotArm = new RobotArm(6,14,WorldObjects::PICKUP,this);
+    addObject(robotArm);
 }
