@@ -47,6 +47,9 @@ void Customer::execute()
             {
                 path.erase(path.begin());
             }
+        } else {
+            GridSearch searcher(world->getWorldGrid(),&rules);
+            path = searcher.BFS(GridSearch::Node(getx(),gety()), GridSearch::NullNode, DOORWAY);
         }
     }
     if(!path.empty())

@@ -11,6 +11,7 @@ Cafe::~Cafe()
     delete kitchen;
     delete chef;
     delete robotArm;
+    delete commandCenter;
     for(std::vector<Customer*>::iterator it=customers.begin(); it!=customers.end(); it++)
         delete (*it);
     for(std::vector<RobotWaiter*>::iterator it=robotwaiters.begin(); it!=robotwaiters.end(); it++)
@@ -39,6 +40,8 @@ void Cafe::start()
     createRobotServer(9,10);
     createRobotArm();
 
+    commandCenter = new CommandCenter(this);
+
     updateWorldMap();
     return World::start();
 }
@@ -58,6 +61,8 @@ void Cafe::execute()
         }
     }
     kitchen->execute();
+    commandCenter->execute();
+    // Checking if customers need to be removed from world
     for(std::vector<Customer*>::iterator it=customers.begin(); it!=customers.end(); it++)
     {
         Node temp((*it)->getx(), (*it)->gety());

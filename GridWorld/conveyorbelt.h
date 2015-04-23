@@ -21,6 +21,8 @@ class ConveyorBelt
         void execute();
         /** Adds food to the conveyor belt */
         bool addFood(int food);
+        /** Removes food from front of conveyor belt */
+        int removeFood();
     protected:
     private:
         void rotateFood();

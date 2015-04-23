@@ -62,6 +62,17 @@ bool ConveyorBelt::addFood(int foodNum)
     return false;
 }
 
+int ConveyorBelt::removeFood()
+{
+    if(food.back()!=0)
+    {
+        int value = food.back();
+        food.back() = 0;
+        return value;
+    }
+    return 0;
+}
+
 void ConveyorBelt::clearFood()
 {
 

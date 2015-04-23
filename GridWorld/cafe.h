@@ -13,11 +13,13 @@
 #include "conveyorbelt.h"
 #include "kitchen.h"
 #include "robotarm.h"
+#include "commandcenter.h"
 
 class RobotWaiter;
 class RobotServer;
 class Kitchen;
 class RobotArm;
+class CommandCenter;
 
 class Cafe : public World
 {
@@ -43,7 +45,9 @@ class Cafe : public World
         Kitchen* kitchen;
         Chef* chef;
         RobotArm* robotArm;
+        CommandCenter* commandCenter;
         std::vector<int> orders;
+        std::vector<std::pair<Customer*, int> > orderMap;
         std::vector<Node > doorways;
         std::vector<Customer*> customers;
         std::vector<RobotWaiter*> robotwaiters;
@@ -53,6 +57,7 @@ class Cafe : public World
         friend class RobotServer;
         friend class Kitchen;
         friend class RobotArm;
+        friend class CommandCenter;
 };
 
 #endif // CAFE_H

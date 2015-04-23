@@ -16,3 +16,8 @@ void RobotArm::execute()
 {
 
 }
+
+int RobotArm::grabFood()
+{
+    return cafe->belt.removeFood();
+}

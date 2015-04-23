@@ -99,6 +99,7 @@ void RobotWaiter::execute()
                     cafe->orders.push_back(order);
                     path.clear();
                     visited.push_back(customer);
+                    cafe->orderMap.push_back(std::pair<Customer*, int>(customer, order));
                 }
             } else {
                 // Made a mistake! There was no customer

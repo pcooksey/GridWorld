@@ -13,6 +13,8 @@ class RobotArm : public Object
         virtual ~RobotArm();
         void execute();
 
+        int grabFood();
+
     protected:
 
     private:
