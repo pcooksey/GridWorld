@@ -20,16 +20,19 @@ class CustomerRules: public Rules
 class Customer : public Object
 {
     public:
-        Customer(const int &x, const int &y, const int &id, World* world);
+        Customer(const int &x, const int &y, const int &id, int identifier, World* world);
         virtual ~Customer();
         int askForOrder();
         bool receiveFood(int food);
+
+        int getIdentifer() { return identifer; };
 
         bool readyToLeave;
     protected:
     private:
         void execute();
 
+        int identifer;
         int orderRandomTime;
         GridSearch::Path path;
         CustomerRules rules;

@@ -18,8 +18,8 @@ bool CustomerRules::check(GridSearch* searcher, int id)
 }
 
 
-Customer::Customer(const int &x, const int &y, const int &id, World* world)
-:Object(x, y, id, world), orderRandomTime((rand()%10)+1), rules(), world(world)
+Customer::Customer(const int &x, const int &y, const int &id, int identifer, World* world)
+:Object(x, y, id, world), identifer(identifer), orderRandomTime((rand()%10)+1), rules(), world(world)
 {
     load_image("images/human1.bmp");
     readyToLeave = false;

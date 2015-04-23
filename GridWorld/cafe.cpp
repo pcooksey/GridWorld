@@ -25,6 +25,7 @@ bool Cafe::successful()
 
 void Cafe::start()
 {
+    identifier = 0;
     //Find objects TODO: going to need to find table seats to make robot search quicker
     findDoors();
     // Create inanimate objects
@@ -104,7 +105,7 @@ Cafe::Node Cafe::getADoor()
 void Cafe::createCustomer()
 {
     Node node = getADoor();
-    Customer* customer = new Customer(node.first,node.second,WorldObjects::CUSTOMER,this);
+    Customer* customer = new Customer(node.first,node.second, WorldObjects::CUSTOMER, identifier++, this);
     customers.push_back(customer);
     addObject(customer);
 }

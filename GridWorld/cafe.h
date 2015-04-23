@@ -40,6 +40,8 @@ class Cafe : public World
 
     private:
 
+        int identifier;
+
         const Map& gridMap;
         ConveyorBelt belt;
         Kitchen* kitchen;

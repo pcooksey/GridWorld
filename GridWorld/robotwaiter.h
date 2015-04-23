@@ -35,10 +35,8 @@ class RobotWaiter : public Object
         Customer* getClosestCustomer();
         Customer* findCustomer(const int& x, const int& y);
 
-        void cleanVisited();
-
         std::vector<Customer*>* customers;
-        std::vector<Customer*> visited;
+        std::vector<int> visited;
 
         GridSearch::Path path;
         RobotWaiterRules rules;

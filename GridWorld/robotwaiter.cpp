@@ -90,7 +90,7 @@ void RobotWaiter::execute()
         }
     } else {
         GridSearch::Node node = path.front();
-        const Map::MultiArray& worldMap = world->getWorldGrid().getGrid();
+        const Map::MultiArray& worldMap = world->getWorldMap();
         if(path.size()<=2 && worldMap[node.first][node.second]==WorldObjects::CUSTOMER)
         {
             Customer* customer = findCustomer(node.first, node.second);
@@ -101,7 +101,7 @@ void RobotWaiter::execute()
                 {
                     cafe->orders.push_back(order);
                     path.clear();
-                    visited.push_back(customer);
+                    visited.push_back(customer->getIdentifer());
                     cafe->orderMap.push_back(std::pair<Customer*, int>(customer, order));
                 }
             } else {
@@ -118,7 +118,6 @@ void RobotWaiter::execute()
             path.clear();
         }
     }
-    cleanVisited();
 }
 
 Customer* RobotWaiter::getClosestCustomer()
@@ -128,11 +127,11 @@ Customer* RobotWaiter::getClosestCustomer()
     int x = getx(), y = gety(), x2(0), y2(0);
     for(std::vector<Customer*>::iterator it = customers->begin(); it!=customers->end(); it++)
     {
-        if(std::find(visited.begin(),visited.end(),(*it))==visited.end())
+        if(std::find(visited.begin(),visited.end(),(*it)->getIdentifer())==visited.end())
         {
             x2 = (*it)->getx();
             y2 = (*it)->gety();
-            int temp = sqrt(pow(x2-x,2)+pow(y2-y,2));
+            temp = sqrt(pow(x2-x,2)+pow(y2-y,2));
             if(temp<distance)
             {
                 nully = (*it);
@@ -152,16 +151,4 @@ Customer* RobotWaiter::findCustomer(const int& x, const int& y)
             return (*it);
     }
     return nully;
-}
-
-void RobotWaiter::cleanVisited()
-{
-    for(std::vector<Customer*>::iterator it = visited.begin(); it!=visited.end(); it++)
-    {
-        if((*it)==NULL)
-        {
-            visited.erase(it);
-            it--;
-        }
-    }
 }
