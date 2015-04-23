@@ -48,7 +48,7 @@ void Cafe::start()
 
 void Cafe::execute()
 {
-    if(rand()%20==0)
+    if(rand()%50==0)
     {
         createCustomer();
     }

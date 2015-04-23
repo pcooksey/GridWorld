@@ -11,10 +11,11 @@ bool RobotWaiterRules::check(GridSearch* searcher, int id)
             // Check if customer is next to TABLE. This however does not always work since the human
             // can walk pass a table.
             IDs::iterator it = std::find(nextToRobot.begin(),nextToRobot.end(), TABLE);
-            if(it!=nextToRobot.end())
+            if(it!=nextToRobot.end()){
                 return true;
-            else
+            } else {
                 return false;
+            }
         }
     } else {
         if(id==OPENSPACE || id==DOORWAY)
@@ -23,10 +24,11 @@ bool RobotWaiterRules::check(GridSearch* searcher, int id)
             {
                 IDs nextToRobot = getBranchesIDs(searcher, getCurrent(searcher));
                 IDs::iterator it = std::find(nextToRobot.begin(),nextToRobot.end(), TABLE);
-                if(it!=nextToRobot.end())
+                if(it!=nextToRobot.end()){
                     return true;
-                else
+                } else {
                     return false;
+                }
             }
             return true;
         }
@@ -36,10 +38,11 @@ bool RobotWaiterRules::check(GridSearch* searcher, int id)
             {
                 IDs nextToRobot = getBranchesIDs(searcher, getChecking(searcher));
                 IDs::iterator it = std::find(nextToRobot.begin(),nextToRobot.end(), TABLE);
-                if(it!=nextToRobot.end())
+                if(it!=nextToRobot.end()){
                     return true;
-                else
+                } else {
                     return false;
+                }
             }
         }
     }
@@ -115,6 +118,7 @@ void RobotWaiter::execute()
             path.clear();
         }
     }
+    cleanVisited();
 }
 
 Customer* RobotWaiter::getClosestCustomer()
@@ -128,7 +132,7 @@ Customer* RobotWaiter::getClosestCustomer()
         {
             x2 = (*it)->getx();
             y2 = (*it)->gety();
-            int temp = sqrt(pow(x2-x,2)-pow(y2-y,2));
+            int temp = sqrt(pow(x2-x,2)+pow(y2-y,2));
             if(temp<distance)
             {
                 nully = (*it);
@@ -148,4 +152,16 @@ Customer* RobotWaiter::findCustomer(const int& x, const int& y)
             return (*it);
     }
     return nully;
+}
+
+void RobotWaiter::cleanVisited()
+{
+    for(std::vector<Customer*>::iterator it = visited.begin(); it!=visited.end(); it++)
+    {
+        if((*it)==NULL)
+        {
+            visited.erase(it);
+            it--;
+        }
+    }
 }

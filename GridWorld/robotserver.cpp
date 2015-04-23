@@ -89,16 +89,15 @@ void RobotServer::execute()
             const Map::MultiArray& worldMap = world->getWorldGrid().getGrid();
             if(path.size()<=2 && worldMap[node.first][node.second]==WorldObjects::CUSTOMER)
             {
-                if(food.size()>0)
+                bool success = cafe->orderMap.begin()->first->receiveFood(food[0]);
+                if(success)
                 {
-                    bool success = cafe->orderMap.begin()->first->receiveFood(food[0]);
-                    if(success)
-                    {
-                        food.erase(food.begin());
-                        cafe->orderMap.erase(cafe->orderMap.begin());
-                        path.clear();
-                    }
-                } else {
+                    food.erase(food.begin());
+                    cafe->orderMap.erase(cafe->orderMap.begin());
+                    path.clear();
+                }
+                if(food.size()==0)
+                {
                     action = GetFood;
                     path.clear();
                 }
