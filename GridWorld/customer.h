@@ -23,6 +23,9 @@ class Customer : public Object
         Customer(const int &x, const int &y, const int &id, World* world);
         virtual ~Customer();
         int askForOrder();
+        bool receiveFood(int food);
+
+        bool readyToLeave;
     protected:
     private:
         void execute();

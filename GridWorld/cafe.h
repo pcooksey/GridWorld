@@ -9,11 +9,13 @@
 #include "customer.h"
 #include "chef.h"
 #include "robotwaiter.h"
+#include "robotserver.h"
 #include "conveyorbelt.h"
 #include "kitchen.h"
 #include "robotarm.h"
 
 class RobotWaiter;
+class RobotServer;
 class Kitchen;
 class RobotArm;
 
@@ -30,7 +32,8 @@ class Cafe : public World
         void findDoors();
         Node getADoor();
         void createCustomer();
-        void createRobotWaiter();
+        void createRobotWaiter(int x, int y);
+        void createRobotServer(int x, int y);
         void createRobotArm();
 
     private:
@@ -44,8 +47,10 @@ class Cafe : public World
         std::vector<Node > doorways;
         std::vector<Customer*> customers;
         std::vector<RobotWaiter*> robotwaiters;
+        std::vector<RobotServer*> robotservers;
 
         friend class RobotWaiter;
+        friend class RobotServer;
         friend class Kitchen;
         friend class RobotArm;
 };

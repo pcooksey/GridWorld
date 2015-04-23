@@ -3,7 +3,7 @@
 bool CustomerRules::check(GridSearch* searcher, int id)
 {
     if(getGoal(searcher)==GridSearch::NullNode) {
-        if(id==OPENSPACE || id==DOORWAY || id==TABLE)
+        if(id==OPENSPACE || id==DOORWAY || (getId(searcher)!=DOORWAY && id==TABLE))
             return true;
     } else {
         if(id==OPENSPACE || id==DOORWAY)
@@ -22,6 +22,7 @@ Customer::Customer(const int &x, const int &y, const int &id, World* world)
 :Object(x, y, id, world), orderRandomTime(rand()%10+1), rules(), world(world)
 {
     load_image("images/human1.bmp");
+    readyToLeave = false;
     //Noticed that I am using the grid without any objects
     //Behavior changes with world->getWorldGrid() however I should
     //change it to this eventually
@@ -37,7 +38,17 @@ Customer::~Customer()
 
 void Customer::execute()
 {
-    //move(getx()+((rand()%2-1?-1:1)*(rand()%2-1)),gety()+((rand()%2-1?-1:1)*(rand()%2-1)));
+    if(readyToLeave)
+    {
+        if(path.size()!=0)
+        {
+            GridSearch::Node node = path.front();
+            if(move(node.first,node.second))
+            {
+                path.erase(path.begin());
+            }
+        }
+    }
     if(!path.empty())
     {
         GridSearch::Node node = path.front();
@@ -67,4 +78,16 @@ int Customer::askForOrder()
         orderRandomTime--;
         return -1;
     }
+}
+
+bool Customer::receiveFood(int food)
+{
+    if(food==HAMBURGER)
+    {
+        GridSearch searcher(world->getGrid(),&rules);
+        path = searcher.BFS(GridSearch::Node(getx(),gety()), GridSearch::NullNode, DOORWAY);
+        readyToLeave = true;
+        return true;
+    }
+    return false;
 }

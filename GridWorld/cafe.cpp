@@ -35,7 +35,8 @@ void Cafe::start()
     addObject(chef);
     createCustomer();
     createCustomer();
-    createRobotWaiter();
+    createRobotWaiter(9,9);
+    createRobotServer(9,10);
     createRobotArm();
 
     updateWorldMap();
@@ -57,6 +58,17 @@ void Cafe::execute()
         }
     }
     kitchen->execute();
+    for(std::vector<Customer*>::iterator it=customers.begin(); it!=customers.end(); it++)
+    {
+        Node temp((*it)->getx(), (*it)->gety());
+        if((*it)->readyToLeave && std::find(doorways.begin(), doorways.end(), temp)!=doorways.end())
+        {
+            delete (*it);
+            removeObject((*it));
+            customers.erase(it);
+            it--;
+        }
+    }
 }
 
 void Cafe::findDoors()
@@ -92,10 +104,17 @@ void Cafe::createCustomer()
     addObject(customer);
 }
 
-void Cafe::createRobotWaiter()
+void Cafe::createRobotWaiter(int x, int y)
 {
-    RobotWaiter* robot = new RobotWaiter(9,9,WorldObjects::ROBOTWAITER,this);
+    RobotWaiter* robot = new RobotWaiter(x,y,WorldObjects::ROBOTWAITER,this);
     robotwaiters.push_back(robot);
+    addObject(robot);
+}
+
+void Cafe::createRobotServer(int x, int y)
+{
+    RobotServer* robot = new RobotServer(x,y,WorldObjects::ROBOTSERVER,this);
+    robotservers.push_back(robot);
     addObject(robot);
 }
 

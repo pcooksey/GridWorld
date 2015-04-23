@@ -8,6 +8,8 @@ bool RobotWaiterRules::check(GridSearch* searcher, int id)
         if(id==CUSTOMER)
         {
             IDs nextToRobot = getBranchesIDs(searcher, getCurrent(searcher));
+            // Check if customer is next to TABLE. This however does not always work since the human
+            // can walk pass a table.
             IDs::iterator it = std::find(nextToRobot.begin(),nextToRobot.end(), TABLE);
             if(it!=nextToRobot.end())
                 return true;
@@ -86,7 +88,7 @@ void RobotWaiter::execute()
     } else {
         GridSearch::Node node = path.front();
         const Map::MultiArray& worldMap = world->getWorldGrid().getGrid();
-        if(worldMap[node.first][node.second]==WorldObjects::CUSTOMER)
+        if(path.size()<=2 && worldMap[node.first][node.second]==WorldObjects::CUSTOMER)
         {
             Customer* customer = findCustomer(node.first, node.second);
             if(customer!=NULL)
@@ -99,12 +101,17 @@ void RobotWaiter::execute()
                     visited.push_back(customer);
                 }
             } else {
+                // Made a mistake! There was no customer
                 path.clear();
             }
         }
         else if(move(node.first,node.second))
         {
             path.erase(path.begin());
+        }
+        else
+        {
+            path.clear();
         }
     }
 }
