@@ -4,6 +4,7 @@
 #include "object.h"
 #include "cafe.h"
 #include "gridsearch.h"
+#include <assert.h>
 
 using namespace WorldObjects;
 
@@ -38,6 +39,8 @@ class RobotServer : public Object
         std::vector<int> food;
         std::vector<Customer*> customers;
 
+        GridSearch::Path path;
+        RobotServerRules rules;
         Action action;
         World* world;
         Cafe* cafe;
