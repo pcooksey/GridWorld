@@ -73,6 +73,7 @@ int Customer::askForOrder()
 {
     if(orderRandomTime<=0)
     {
+        receiveFood(HAMBURGER);
         return WorldObjects::HAMBURGER;
     } else {
         orderRandomTime--;
@@ -84,7 +85,7 @@ bool Customer::receiveFood(int food)
 {
     if(food==HAMBURGER)
     {
-        GridSearch searcher(world->getGrid(),&rules);
+        GridSearch searcher(world->getWorldGrid(),&rules);
         path = searcher.BFS(GridSearch::Node(getx(),gety()), GridSearch::NullNode, DOORWAY);
         readyToLeave = true;
         return true;
