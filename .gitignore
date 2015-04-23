@@ -2,10 +2,13 @@
 ## Code::Blocks  
 #################  
 
+*.depend  
+*.layout 
+*.cscope_file_list
 .depend  
 .layout 
 .cscope_file_list
-
+GridWorld/GridWorld.layout
 
 #################
 ## Eclipse
