@@ -7,6 +7,11 @@
 #include "gridsearch.h"
 #include "cafe.h"
 
+/**
+ There is a bug where the RobotWaiter asks a customer not at a seat and
+ I think adds it to the visited which messes up everything!!! AGHH!
+*/
+
 using namespace WorldObjects;
 
 class Cafe;
