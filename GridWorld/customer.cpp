@@ -73,7 +73,6 @@ int Customer::askForOrder()
 {
     if(orderRandomTime<=0)
     {
-        receiveFood(HAMBURGER);
         return WorldObjects::HAMBURGER;
     } else {
         orderRandomTime--;
