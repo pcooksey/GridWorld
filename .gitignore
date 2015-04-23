@@ -9,6 +9,8 @@
 .layout 
 .cscope_file_list
 GridWorld/GridWorld.layout
+*.depend
+*.cbp
 
 #################
 ## Eclipse
@@ -225,4 +227,3 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-*.depend
