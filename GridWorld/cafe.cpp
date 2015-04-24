@@ -4,6 +4,7 @@ Cafe::Cafe(std::string fileName)
 :World(fileName), gridMap(getGrid()), belt(CONVEYORBELT,this)
 {
     setWorldTimeSpeed(50);
+    time = 0;
 }
 
 Cafe::~Cafe()
@@ -35,8 +36,8 @@ void Cafe::start()
     //Create real moving things
     chef = new Chef(4,14,CHEF,this);
     addObject(chef);
-    createCustomer();
-    createCustomer();
+    //createCustomer();
+    //createCustomer();
     createRobotWaiter(9,9);
     createRobotServer(9,10);
     createRobotArm();
@@ -49,6 +50,7 @@ void Cafe::start()
 
 void Cafe::execute()
 {
+    time++;
     if(rand()%50==0)
     {
         createCustomer();
@@ -69,6 +71,11 @@ void Cafe::execute()
         Node temp((*it)->getx(), (*it)->gety());
         if((*it)->readyToLeave && std::find(doorways.begin(), doorways.end(), temp)!=doorways.end())
         {
+            customerTimes[(*it)->getIdentifer()] = time - customerTimes[(*it)->getIdentifer()];
+            std::ofstream ofs;
+            ofs.open ("customerTimes.csv", std::ofstream::out | std::ofstream::app);
+            ofs<<(*it)->getIdentifer()<<","<<customerTimes[(*it)->getIdentifer()]<<std::endl;
+            customerTimes.erase((*it)->getIdentifer());
             delete (*it);
             removeObject((*it));
             customers.erase(it);
@@ -108,6 +115,7 @@ void Cafe::createCustomer()
     Customer* customer = new Customer(node.first,node.second, WorldObjects::CUSTOMER, identifier++, this);
     customers.push_back(customer);
     addObject(customer);
+    customerTimes[customer->getIdentifer()] = time;
 }
 
 void Cafe::createRobotWaiter(int x, int y)

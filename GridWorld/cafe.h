@@ -3,6 +3,7 @@
 
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 
 #include "world.h"
 #include "cafeobjects.h"
@@ -40,6 +41,8 @@ class Cafe : public World
 
     private:
 
+        unsigned int time;
+
         int identifier;
 
         const Map& gridMap;
@@ -52,6 +55,7 @@ class Cafe : public World
         std::vector<std::pair<Customer*, int> > orderMap;
         std::vector<Node > doorways;
         std::vector<Customer*> customers;
+        std::map<int,int> customerTimes;
         std::vector<RobotWaiter*> robotwaiters;
         std::vector<RobotServer*> robotservers;
 
