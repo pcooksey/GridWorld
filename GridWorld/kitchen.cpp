@@ -45,6 +45,10 @@ void Kitchen::execute()
                     world->removeObject(object);
                     objects.erase(std::find(objects.begin(),objects.end(),object));
                     delete object;
+                    if((*it)>=15)
+                    {
+                        cafe->orders.push_back(food[iteratorNum]);
+                    }
                     food[iteratorNum] = 0;
                     (*it)=0;
                 }
