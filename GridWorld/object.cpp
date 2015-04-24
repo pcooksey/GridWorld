@@ -40,6 +40,7 @@ bool Object::move(int x, int y)
     {
         //Color key image
 		SDL_SetColorKey( loadedImage, SDL_TRUE, SDL_MapRGB( loadedImage->format, 0xFF, 0xFF, 0xFF ) );
+		SDL_DestroyTexture( bodyImage );
         bodyImage = SDL_CreateTextureFromSurface( world->renderer, loadedImage );
         assert(bodyImage!=NULL);
         SDL_FreeSurface( loadedImage );
@@ -53,6 +54,7 @@ void Object::set_image(SDL_Surface* image)
     {
         //Color key image
 		SDL_SetColorKey( loadedImage, SDL_TRUE, SDL_MapRGB( loadedImage->format, 0xFF, 0xFF, 0xFF ) );
+		SDL_DestroyTexture( bodyImage );
         bodyImage = SDL_CreateTextureFromSurface( world->renderer, loadedImage );
         assert(bodyImage!=NULL);
     }
