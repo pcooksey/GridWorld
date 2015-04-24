@@ -115,7 +115,10 @@ void RobotWaiter::execute()
         }
         else
         {
-            path.clear();
+            //We want the waiter to wait for the server to go by. This will hopefully ensure that the robots
+            //don't get into a endless loop of up/down which I have seen
+            if(worldMap[node.first][node.second]!=WorldObjects::ROBOTSERVER)
+                path.clear();
         }
     }
 }
