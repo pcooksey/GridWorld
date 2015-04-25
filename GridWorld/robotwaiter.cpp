@@ -131,12 +131,10 @@ Customer* RobotWaiter::getClosestCustomer()
     int x = getx(), y = gety(), x2(0), y2(0);
     for(std::vector<Customer*>::iterator it = customers->begin(); it!=customers->end(); it++)
     {
-        std::cout<<(*it)->getIdentifer()<<": ";
         if(std::find(visited.begin(),visited.end(),(*it)->getIdentifer())==visited.end())
         {
             x2 = (*it)->getx();
             y2 = (*it)->gety();
-            std::cout<<"("<<x2<<","<<y2<<")";
             temp = sqrt(pow(x2-x,2)+pow(y2-y,2));
             if(temp<distance)
             {
@@ -144,7 +142,6 @@ Customer* RobotWaiter::getClosestCustomer()
                 distance = temp;
             }
         }
-        std::cout<<std::endl;
     }
     return nully;
 }
