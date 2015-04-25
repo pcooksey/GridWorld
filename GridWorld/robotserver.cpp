@@ -27,7 +27,7 @@ bool RobotServerRules::check(GridSearch* searcher, int id)
 }
 
 RobotServer::RobotServer(const int &x, const int &y, const int &id, World* world)
-  :Object(x, y, id, world), rules(), world(world)
+  :Object(x, y, id, world), birthPlace(x,y), rules(), world(world)
 {
     load_image("images/robotserver.bmp");
     cafe = static_cast<Cafe*>(world);
@@ -45,6 +45,22 @@ void RobotServer::execute()
     switch(action)
     {
     case Nothing:
+        if(path.empty() && getx()!=birthPlace.first && gety()!=birthPlace.second)
+        {
+            GridSearch searcher(world->getWorldGrid(), &defaultRules);
+            path = searcher.BFS(GridSearch::Node(getx(),gety()), birthPlace, GridSearch::NullID);
+        } else if(!path.empty()){
+            GridSearch::Node node = path.front();
+            const Map::MultiArray& worldMap = world->getWorldMap();
+            if(move(node.first,node.second))
+            {
+                path.erase(path.begin());
+            }
+            else
+            {
+                path.clear();
+            }
+        }
         break;
     case GetFood:
         if(path.empty())
@@ -52,6 +68,10 @@ void RobotServer::execute()
             GridSearch searcher(world->getWorldGrid(),&rules);
             GridSearch::Node pickUpNode(cafe->robotArm->getx(),cafe->robotArm->gety());
             path = searcher.BFS(GridSearch::Node(getx(),gety()), pickUpNode, GridSearch::NullID);
+            if(path.empty())
+            {
+                action = Nothing;
+            }
         } else {
             GridSearch::Node node = path.front();
             const Map::MultiArray& worldMap = world->getWorldGrid().getGrid();
@@ -124,7 +144,7 @@ void RobotServer::execute()
                     }
                     if(food.size()==0)
                     {
-                        action = GetFood;
+                        action = Nothing;
                         path.clear();
                     }
                 }

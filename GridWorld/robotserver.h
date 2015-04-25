@@ -32,6 +32,8 @@ class RobotServer : public Object
 
         void setAction(Action act);
         void addCustomer(Customer* customer);
+        void setCommandControl(bool value)
+                { commandControlled=value; };
     protected:
     private:
         void execute();
@@ -40,7 +42,10 @@ class RobotServer : public Object
         std::vector<Customer*> customers;
 
         bool commandControlled;
+
+        GridSearch::Node birthPlace;
         GridSearch::Path path;
+        Rules defaultRules;
         RobotServerRules rules;
         Action action;
         World* world;

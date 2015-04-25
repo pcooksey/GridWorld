@@ -51,11 +51,12 @@ bool RobotWaiterRules::check(GridSearch* searcher, int id)
 }
 
 RobotWaiter::RobotWaiter(const int &x, const int &y, const int &id, World* world)
-  :Object(x, y, id, world), rules(), world(world)
+  :Object(x, y, id, world), birthPlace(x,y), rules(), world(world)
 {
     load_image("images/robotwaiter.bmp");
     cafe = static_cast<Cafe*>(world);
     commandControlled = false;
+    action = GetOrder;
 }
 
 RobotWaiter::~RobotWaiter()
@@ -80,17 +81,76 @@ RobotWaiter::~RobotWaiter()
 
 void RobotWaiter::execute()
 {
-    if(!commandControlled)
+    switch(action)
     {
-        if(path.empty())
+    case Waiting:
+        if(!commandControlled)
         {
-            customers = &cafe->customers;
+            customers = cafe->customers;
             GridSearch searcher(world->getWorldGrid(),&rules);
             Customer* customer = getClosestCustomer();
             if(customer!=NULL)
             {
                 GridSearch::Node customerNode(customer->getx(),customer->gety());
                 path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                action = GetOrder;
+                return;
+            }
+        } else {
+            if(customers.begin()!=customers.end())
+            {
+                GridSearch searcher(world->getWorldGrid(),&rules);
+                GridSearch::Node customerNode(customers.front()->getx(),customers.front()->gety());
+                path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                action = GetOrder;
+                return;
+            }
+        }
+        if(path.empty() && getx()!=birthPlace.first && gety()!=birthPlace.second)
+        {
+            GridSearch searcher(world->getWorldGrid(), &defaultRules);
+            path = searcher.BFS(GridSearch::Node(getx(),gety()), birthPlace, GridSearch::NullID);
+        } else if(!path.empty()){
+            GridSearch::Node node = path.front();
+            const Map::MultiArray& worldMap = world->getWorldMap();
+            if(move(node.first,node.second))
+            {
+                path.erase(path.begin());
+            }
+            else
+            {
+                //We want the waiter to wait for the server to go by. This will hopefully ensure that the robots
+                //don't get into a endless loop of up/down which I have seen
+                if(worldMap[node.first][node.second]!=WorldObjects::ROBOTSERVER)
+                    path.clear();
+            }
+        }
+
+        break;
+    case GetOrder:
+        if(path.empty())
+        {
+            if(!commandControlled)
+            {
+                customers = cafe->customers;
+                GridSearch searcher(world->getWorldGrid(),&rules);
+                Customer* customer = getClosestCustomer();
+                if(customer!=NULL)
+                {
+                    GridSearch::Node customerNode(customer->getx(),customer->gety());
+                    path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                } else {
+                    action = Waiting;
+                }
+            } else {
+                if(customers.begin()!=customers.end())
+                {
+                    GridSearch searcher(world->getWorldGrid(),&rules);
+                    GridSearch::Node customerNode(customers.front()->getx(),customers.front()->gety());
+                    path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                } else {
+                    action = Waiting;
+                }
             }
         } else {
             GridSearch::Node node = path.front();
@@ -125,8 +185,7 @@ void RobotWaiter::execute()
                     path.clear();
             }
         }
-    } else {
-
+        break;
     }
 }
 
@@ -135,7 +194,7 @@ Customer* RobotWaiter::getClosestCustomer()
     Customer* nully = NULL;
     int distance(Screen::SCREEN_HEIGHT), temp(0);
     int x = getx(), y = gety(), x2(0), y2(0);
-    for(std::vector<Customer*>::iterator it = customers->begin(); it!=customers->end(); it++)
+    for(std::vector<Customer*>::iterator it = customers.begin(); it!=customers.end(); it++)
     {
         if(std::find(cafe->visited.begin(),cafe->visited.end(),(*it)->getIdentifer())==cafe->visited.end())
         {
@@ -155,10 +214,20 @@ Customer* RobotWaiter::getClosestCustomer()
 Customer* RobotWaiter::findCustomer(const int& x, const int& y)
 {
     Customer* nully = NULL;
-    for(std::vector<Customer*>::iterator it = customers->begin(); it!=customers->end(); it++)
+    for(std::vector<Customer*>::iterator it = customers.begin(); it!=customers.end(); it++)
     {
         if((*it)->getx()==x && (*it)->gety()==y)
             return (*it);
     }
     return nully;
+}
+
+void RobotWaiter::setAction(Action act)
+{
+    action = act;
+}
+
+void RobotWaiter::addCustomer(Customer* _customer)
+{
+    customers.push_back(_customer);
 }

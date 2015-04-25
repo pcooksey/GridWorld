@@ -28,20 +28,34 @@ class RobotWaiterRules: public Rules
 class RobotWaiter : public Object
 {
     public:
+        enum Action {
+            Waiting,
+            GetOrder
+        };
+
         RobotWaiter(const int &x, const int &y, const int &id, World* world);
         virtual ~RobotWaiter();
+
+        void setAction(Action act);
+        void addCustomer(Customer* customer);
+        void setCommandControl(bool value)
+                { commandControlled=value; };
     protected:
     private:
         void execute();
         Customer* getClosestCustomer();
         Customer* findCustomer(const int& x, const int& y);
 
-        std::vector<Customer*>* customers;
+        std::vector<Customer*> customers;
 
         //Is the robot controller by the command center
         bool commandControlled;
+
+        GridSearch::Node birthPlace;
         GridSearch::Path path;
+        Rules defaultRules;
         RobotWaiterRules rules;
+        Action action;
         World* world;
         Cafe* cafe;
 };
