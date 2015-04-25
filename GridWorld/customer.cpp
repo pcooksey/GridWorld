@@ -74,7 +74,8 @@ void Customer::execute()
 
 int Customer::askForOrder()
 {
-    if(orderRandomTime<=0)
+    //Should only have to ask once
+    if(orderRandomTime==0)
     {
         return WorldObjects::HAMBURGER;
     } else {

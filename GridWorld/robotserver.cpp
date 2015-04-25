@@ -32,6 +32,7 @@ RobotServer::RobotServer(const int &x, const int &y, const int &id, World* world
     load_image("images/robotserver.bmp");
     cafe = static_cast<Cafe*>(world);
     action = GetFood;
+    commandControlled = false;
 }
 
 RobotServer::~RobotServer()
@@ -78,28 +79,54 @@ void RobotServer::execute()
     case ServerFood:
         if(path.empty())
         {
-            if(cafe->orderMap.begin()!=cafe->orderMap.end())
+            if(!commandControlled)
             {
-                GridSearch searcher(world->getWorldGrid(),&rules);
-                GridSearch::Node customerNode(cafe->orderMap.front().first->getx(),cafe->orderMap.front().first->gety());
-                path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                if(cafe->orderMap.begin()!=cafe->orderMap.end())
+                {
+                    GridSearch searcher(world->getWorldGrid(),&rules);
+                    GridSearch::Node customerNode(cafe->orderMap.front().first->getx(),cafe->orderMap.front().first->gety());
+                    path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                }
+            } else {
+                if(customers.begin()!=customers.end())
+                {
+                    GridSearch searcher(world->getWorldGrid(),&rules);
+                    GridSearch::Node customerNode(customers.front()->getx(),customers.front()->gety());
+                    path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                }
             }
         } else {
             GridSearch::Node node = path.front();
             const Map::MultiArray& worldMap = world->getWorldGrid().getGrid();
             if(path.size()<=2 && worldMap[node.first][node.second]==WorldObjects::CUSTOMER)
             {
-                bool success = cafe->orderMap.begin()->first->receiveFood(food[0]);
-                if(success)
+                if(!commandControlled)
                 {
-                    food.erase(food.begin());
-                    cafe->orderMap.erase(cafe->orderMap.begin());
-                    path.clear();
-                }
-                if(food.size()==0)
-                {
-                    action = GetFood;
-                    path.clear();
+                    bool success = cafe->orderMap.begin()->first->receiveFood(food[0]);
+                    if(success)
+                    {
+                        food.erase(food.begin());
+                        cafe->orderMap.erase(cafe->orderMap.begin());
+                        path.clear();
+                    }
+                    if(food.size()==0)
+                    {
+                        action = GetFood;
+                        path.clear();
+                    }
+                } else {
+                    bool success = customers.front()->receiveFood(food[0]);
+                    if(success)
+                    {
+                        food.erase(food.begin());
+                        customers.erase(customers.begin());
+                        path.clear();
+                    }
+                    if(food.size()==0)
+                    {
+                        action = GetFood;
+                        path.clear();
+                    }
                 }
             }
             else if(move(node.first,node.second)) {

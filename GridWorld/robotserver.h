@@ -39,6 +39,7 @@ class RobotServer : public Object
         std::vector<int> food;
         std::vector<Customer*> customers;
 
+        bool commandControlled;
         GridSearch::Path path;
         RobotServerRules rules;
         Action action;

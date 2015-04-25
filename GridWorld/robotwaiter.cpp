@@ -55,6 +55,7 @@ RobotWaiter::RobotWaiter(const int &x, const int &y, const int &id, World* world
 {
     load_image("images/robotwaiter.bmp");
     cafe = static_cast<Cafe*>(world);
+    commandControlled = false;
 }
 
 RobotWaiter::~RobotWaiter()
@@ -79,48 +80,53 @@ RobotWaiter::~RobotWaiter()
 
 void RobotWaiter::execute()
 {
-    if(path.empty())
+    if(!commandControlled)
     {
-        customers = &cafe->customers;
-        GridSearch searcher(world->getWorldGrid(),&rules);
-        Customer* customer = getClosestCustomer();
-        if(customer!=NULL)
+        if(path.empty())
         {
-            GridSearch::Node customerNode(customer->getx(),customer->gety());
-            path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
-        }
-    } else {
-        GridSearch::Node node = path.front();
-        const Map::MultiArray& worldMap = world->getWorldMap();
-        if(path.size()<=2 && worldMap[node.first][node.second]==WorldObjects::CUSTOMER)
-        {
-            Customer* customer = findCustomer(node.first, node.second);
+            customers = &cafe->customers;
+            GridSearch searcher(world->getWorldGrid(),&rules);
+            Customer* customer = getClosestCustomer();
             if(customer!=NULL)
             {
-                int order = customer->askForOrder();
-                if(order!=-1)
+                GridSearch::Node customerNode(customer->getx(),customer->gety());
+                path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+            }
+        } else {
+            GridSearch::Node node = path.front();
+            const Map::MultiArray& worldMap = world->getWorldMap();
+            if(path.size()<=2 && worldMap[node.first][node.second]==WorldObjects::CUSTOMER)
+            {
+                Customer* customer = findCustomer(node.first, node.second);
+                if(customer!=NULL)
                 {
-                    cafe->orders.push_back(order);
+                    int order = customer->askForOrder();
+                    if(order!=-1)
+                    {
+                        cafe->orders.push_back(order);
+                        path.clear();
+                        cafe->visited.push_back(customer->getIdentifer());
+                        cafe->orderMap.push_back(std::pair<Customer*, int>(customer, order));
+                    }
+                } else {
+                    // Made a mistake! There was no customer
                     path.clear();
-                    visited.push_back(customer->getIdentifer());
-                    cafe->orderMap.push_back(std::pair<Customer*, int>(customer, order));
                 }
-            } else {
-                // Made a mistake! There was no customer
-                path.clear();
+            }
+            else if(move(node.first,node.second))
+            {
+                path.erase(path.begin());
+            }
+            else
+            {
+                //We want the waiter to wait for the server to go by. This will hopefully ensure that the robots
+                //don't get into a endless loop of up/down which I have seen
+                if(worldMap[node.first][node.second]!=WorldObjects::ROBOTSERVER)
+                    path.clear();
             }
         }
-        else if(move(node.first,node.second))
-        {
-            path.erase(path.begin());
-        }
-        else
-        {
-            //We want the waiter to wait for the server to go by. This will hopefully ensure that the robots
-            //don't get into a endless loop of up/down which I have seen
-            if(worldMap[node.first][node.second]!=WorldObjects::ROBOTSERVER)
-                path.clear();
-        }
+    } else {
+
     }
 }
 
@@ -131,7 +137,7 @@ Customer* RobotWaiter::getClosestCustomer()
     int x = getx(), y = gety(), x2(0), y2(0);
     for(std::vector<Customer*>::iterator it = customers->begin(); it!=customers->end(); it++)
     {
-        if(std::find(visited.begin(),visited.end(),(*it)->getIdentifer())==visited.end())
+        if(std::find(cafe->visited.begin(),cafe->visited.end(),(*it)->getIdentifer())==cafe->visited.end())
         {
             x2 = (*it)->getx();
             y2 = (*it)->gety();

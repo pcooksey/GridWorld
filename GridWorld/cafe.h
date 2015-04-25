@@ -57,6 +57,7 @@ class Cafe : public World
         std::vector<std::pair<Customer*, int> > orderMap;
         std::vector<Node > doorways;
         std::vector<Customer*> customers;
+        std::vector<int> visited;
         std::map<int,int> customerTimes;
         std::vector<RobotWaiter*> robotwaiters;
         std::vector<RobotServer*> robotservers;

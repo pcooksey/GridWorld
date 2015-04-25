@@ -37,8 +37,9 @@ class RobotWaiter : public Object
         Customer* findCustomer(const int& x, const int& y);
 
         std::vector<Customer*>* customers;
-        std::vector<int> visited;
 
+        //Is the robot controller by the command center
+        bool commandControlled;
         GridSearch::Path path;
         RobotWaiterRules rules;
         World* world;
