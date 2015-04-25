@@ -7,7 +7,7 @@
 int main( int argc, char* args[] )
 {
     /* initialize random seed: */
-    srand (time(NULL));
+    srand (time(0));
     Cafe cafe("map.dd");
     if(cafe.successful()==false)
         return 1;

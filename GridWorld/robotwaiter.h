@@ -2,6 +2,7 @@
 #define ROBOTWAITER_H
 
 #include <math.h>
+#include <fstream>
 
 #include "object.h"
 #include "gridsearch.h"

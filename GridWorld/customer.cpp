@@ -27,7 +27,7 @@ Customer::Customer(const int &x, const int &y, const int &id, int identifer, Wor
     //Behavior changes with world->getWorldGrid() however I should
     //change it to this eventually
     GridSearch searcher(world->getGrid(),&rules);
-    //path = searcher.DFS(GridSearch::Node(x,y), GridSearch::Node(x-6,y-4));
+    //path = searcher.DFS(GridSearch::Node(x,y), GridSearch::Node(9,4));
     path = searcher.DFS(GridSearch::Node(x,y), GridSearch::NullNode, TABLE);
 }
 

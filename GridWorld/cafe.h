@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
+#include <time.h>
 
 #include "world.h"
 #include "cafeobjects.h"

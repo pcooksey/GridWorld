@@ -8,6 +8,8 @@
 #include <queue>
 #include <set>
 #include <map>
+#include <stdlib.h>
+#include <time.h>
 
 #include "map.h"
 

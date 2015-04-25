@@ -105,6 +105,7 @@ void Cafe::findDoors()
 
 Cafe::Node Cafe::getADoor()
 {
+    srand (::time(0));
     std::random_shuffle ( doorways.begin(), doorways.end() );
     return doorways.front();
 }

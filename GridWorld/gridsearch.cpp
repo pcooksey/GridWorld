@@ -172,6 +172,7 @@ GridSearch::Path GridSearch::getBranches(Node node)
     checking=right;
     if(rules->check(this, nodeID(right)))
         nodes.push_back(right);
+    srand(time(0));
     std::random_shuffle ( nodes.begin(), nodes.end() );
     return nodes;
 }
