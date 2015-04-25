@@ -63,7 +63,7 @@ void Customer::execute()
             //something got in the customers way so re-plan path
             if(path.size()!=1)
             {
-                GridSearch searcher(world->getGrid(),&rules);
+                GridSearch searcher(world->getWorldGrid(),&rules);
                 path = searcher.DFS(GridSearch::Node(getx(),gety()), GridSearch::NullNode, TABLE);
                 node = path.front();
                 move(node.first,node.second);
