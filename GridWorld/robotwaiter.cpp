@@ -159,7 +159,7 @@ void RobotWaiter::execute()
         } else {
             GridSearch::Node node = path.front();
             const Map::MultiArray& worldMap = world->getWorldMap();
-            if(path.size()<=2 && worldMap[node.first][node.second]==WorldObjects::CUSTOMER)
+            if(path.size()<2 && worldMap[node.first][node.second]==WorldObjects::CUSTOMER)
             {
                 Customer* customer = findCustomer(node.first, node.second);
                 if(customer!=NULL)
@@ -246,8 +246,15 @@ Customer* RobotWaiter::findCustomer(const int& x, const int& y)
     Customer* nully = NULL;
     for(std::vector<Customer*>::iterator it = cafe->customers.begin(); it!=cafe->customers.end(); it++)
     {
-        if((*it)->getx()==x && (*it)->gety()==y)
-            return (*it);
+        if(!commandControlled)
+        {
+            if((*it)->getx()==x && (*it)->gety()==y)
+                return (*it);
+        } else {
+            //It can sometimes find the wrong customer so we need to check this when using the controlled center
+            if((*it)->getx()==x && (*it)->gety()==y && std::find(customers.begin(),customers.end(),(*it))!=customers.end())
+                return (*it);
+        }
     }
     return nully;
 }
