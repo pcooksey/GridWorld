@@ -8,8 +8,6 @@
 #include <queue>
 #include <set>
 #include <map>
-#include <stdlib.h>
-#include <time.h>
 
 #include "map.h"
 
@@ -76,9 +74,6 @@ class GridSearch
         int id;
 
     private:
-        template< class RandomIt >
-        void random_shuffle( RandomIt first, RandomIt last );
-
         const Map& grid;
         Rules* rules;
 

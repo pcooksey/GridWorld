@@ -70,6 +70,7 @@ void World::start()
 
 int World::starter(void *data)
 {
+    srand ((unsigned)::time(NULL));
     return ((World*)data)->screenThread();
 }
 

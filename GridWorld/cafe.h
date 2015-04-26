@@ -4,8 +4,6 @@
 #include <algorithm>
 #include <iostream>
 #include <fstream>
-#include <stdlib.h>
-#include <time.h>
 
 #include "world.h"
 #include "cafeobjects.h"
@@ -42,9 +40,6 @@ class Cafe : public World
         void createRobotArm();
 
     private:
-
-        template< class RandomIt >
-        void random_shuffle( RandomIt first, RandomIt last );
 
         unsigned int time;
 

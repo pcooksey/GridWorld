@@ -8,6 +8,8 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
+#include <stdlib.h>
+#include <ctime>
 
 #include "map.h"
 #include "object.h"
