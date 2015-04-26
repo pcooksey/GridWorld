@@ -73,12 +73,13 @@ void Cafe::execute()
         Node temp((*it)->getx(), (*it)->gety());
         if((*it)->readyToLeave && std::find(doorways.begin(), doorways.end(), temp)!=doorways.end())
         {
+            int initialTime = customerTimes[(*it)->getIdentifer()];
             customerTimes[(*it)->getIdentifer()] = time - customerTimes[(*it)->getIdentifer()];
             std::vector<int>::iterator visitIT = std::find(visited.begin(),visited.end(),(*it)->getIdentifer());
             visited.erase(visitIT);
             std::ofstream ofs;
             ofs.open ("customerTimes.csv", std::ofstream::out | std::ofstream::app);
-            ofs<<(*it)->getIdentifer()<<","<<customerTimes[(*it)->getIdentifer()]<<std::endl;
+            ofs<<(*it)->getIdentifer()<<","<<initialTime<<","<<customerTimes[(*it)->getIdentifer()]<<std::endl;
             customerTimes.erase((*it)->getIdentifer());
             delete (*it);
             removeObject((*it));
