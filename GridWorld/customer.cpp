@@ -46,6 +46,8 @@ void Customer::execute()
             if(move(node.first,node.second))
             {
                 path.erase(path.begin());
+            } else {
+                path.clear();
             }
         } else {
             GridSearch searcher(world->getWorldGrid(),&rules);

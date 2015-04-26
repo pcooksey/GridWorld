@@ -72,6 +72,8 @@ void Cafe::execute()
         if((*it)->readyToLeave && std::find(doorways.begin(), doorways.end(), temp)!=doorways.end())
         {
             customerTimes[(*it)->getIdentifer()] = time - customerTimes[(*it)->getIdentifer()];
+            std::vector<int>::iterator visitIT = std::find(visited.begin(),visited.end(),(*it)->getIdentifer());
+            visited.erase(visitIT);
             std::ofstream ofs;
             ofs.open ("customerTimes.csv", std::ofstream::out | std::ofstream::app);
             ofs<<(*it)->getIdentifer()<<","<<customerTimes[(*it)->getIdentifer()]<<std::endl;
@@ -113,10 +115,14 @@ Cafe::Node Cafe::getADoor()
 void Cafe::createCustomer()
 {
     Node node = getADoor();
-    Customer* customer = new Customer(node.first,node.second, WorldObjects::CUSTOMER, identifier++, this);
-    customers.push_back(customer);
-    addObject(customer);
-    customerTimes[customer->getIdentifer()] = time;
+    const Map::MultiArray& grid = gridMap.getGrid();
+    if(grid[node.first][node.second]==WorldObjects::DOORWAY)
+    {
+        Customer* customer = new Customer(node.first,node.second, WorldObjects::CUSTOMER, identifier++, this);
+        customers.push_back(customer);
+        addObject(customer);
+        customerTimes[customer->getIdentifer()] = time;
+    }
 }
 
 void Cafe::createRobotWaiter(int x, int y)

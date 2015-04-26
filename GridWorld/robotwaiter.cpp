@@ -139,6 +139,10 @@ void RobotWaiter::execute()
                 {
                     GridSearch::Node customerNode(customer->getx(),customer->gety());
                     path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                    if(path.empty())
+                    {
+                        action = Waiting;
+                    }
                 } else {
                     action = Waiting;
                 }
@@ -148,6 +152,10 @@ void RobotWaiter::execute()
                     GridSearch searcher(world->getWorldGrid(),&rules);
                     GridSearch::Node customerNode(customers.front()->getx(),customers.front()->gety());
                     path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                    if(path.empty())
+                    {
+                        action = Waiting;
+                    }
                 } else {
                     action = Waiting;
                 }
