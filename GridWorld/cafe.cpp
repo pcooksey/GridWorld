@@ -44,6 +44,7 @@ void Cafe::start()
     createRobotServer(9,11);
     createRobotArm();
 
+    //Needs to be after the creation of robots!
     commandCenter = new CommandCenter(this);
 
     updateWorldMap();
@@ -66,7 +67,6 @@ void Cafe::execute()
         }
     }
     kitchen->execute();
-    commandCenter->execute();
     // Checking if customers need to be removed from world
     for(std::vector<Customer*>::iterator it=customers.begin(); it!=customers.end(); it++)
     {
@@ -86,6 +86,8 @@ void Cafe::execute()
             it--;
         }
     }
+    //This needs to be after the deletion of customers since we don't want to assign null customers
+    commandCenter->execute();
 }
 
 void Cafe::findDoors()

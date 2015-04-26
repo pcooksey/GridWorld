@@ -34,6 +34,8 @@ class RobotServer : public Object
         void addCustomer(Customer* customer);
         void setCommandControl(bool value)
                 { commandControlled=value; };
+        const std::vector<Customer*>* getAssignedCustomers()
+                { return &customers; };
     protected:
     private:
         void execute();

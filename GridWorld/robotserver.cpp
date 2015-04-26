@@ -85,18 +85,35 @@ void RobotServer::execute()
             const Map::MultiArray& worldMap = world->getWorldGrid().getGrid();
             if(path.size()<=2 && worldMap[node.first][node.second]==WorldObjects::PICKUP)
             {
-                if(food.size()<3)
+                if(!commandControlled)
                 {
-                    int foodNum = cafe->robotArm->grabFood();
-                    if(foodNum!=0)
+                    if(food.size()<3)
                     {
-                        food.push_back(foodNum);
-                    } else if(food.size()>0) {
+                        int foodNum = cafe->robotArm->grabFood();
+                        if(foodNum!=0)
+                        {
+                            food.push_back(foodNum);
+                        } else if(food.size()>0) {
+                            action = ServerFood;
+                        }
+                    } else {
                         action = ServerFood;
+                        path.clear();
                     }
                 } else {
-                    action = ServerFood;
-                    path.clear();
+                    if(food.size()<3)
+                    {
+                        int foodNum = cafe->robotArm->grabFood();
+                        if(foodNum!=0)
+                        {
+                            food.push_back(foodNum);
+                        } else if(food.size()>0 && customers.size()<=food.size()) {
+                            action = ServerFood;
+                        }
+                    } else {
+                        action = ServerFood;
+                        path.clear();
+                    }
                 }
             }
             else if(move(node.first,node.second)) {
@@ -148,13 +165,15 @@ void RobotServer::execute()
                     bool success = customers.front()->receiveFood(food[0]);
                     if(success)
                     {
+                        std::pair<Customer*, int> customer(customers.front(), food.front());
                         food.erase(food.begin());
+                        cafe->orderMap.erase(std::find(cafe->orderMap.begin(),cafe->orderMap.end(),customer));
                         customers.erase(customers.begin());
                         path.clear();
                     }
                     if(food.size()==0)
                     {
-                        action = Nothing;
+                        action = GetFood;
                         path.clear();
                     }
                 }

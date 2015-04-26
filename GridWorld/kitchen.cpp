@@ -45,7 +45,6 @@ void Kitchen::execute()
                     Object* object = objects[iteratorNum];
                     assert(object!=NULL);
                     world->removeObject(object);
-                    //objects.erase(std::find(objects.begin(),objects.end(),object));
                     objects[iteratorNum] = NULL;
                     delete object;
                     if((*it)>=15)
@@ -70,8 +69,6 @@ bool Kitchen::addFood(int foodNum)
         {
             KitchenCounter* kit = counters[it-food.begin()];
             (*it)=foodNum;
-            //objects.push_back(new Hamburger(kit->getx(),kit->gety(),foodNum, world));
-            //world->addObject(objects.back());
             objects[it-food.begin()] = new Hamburger(kit->getx(),kit->gety(),foodNum, world);
             world->addObject(objects[it-food.begin()]);
             return true;

@@ -84,23 +84,17 @@ void RobotWaiter::execute()
     switch(action)
     {
     case Waiting:
-        if(!commandControlled)
+        if(path.empty())
         {
-            //customers = cafe->customers;
             GridSearch searcher(world->getWorldGrid(),&rules);
-            Customer* customer = getClosestCustomer();
+            Customer* customer;
+            if(!commandControlled)
+                customer = getClosestCustomer(&cafe->customers);
+            else
+                customer = getClosestCustomer(&customers);
             if(customer!=NULL)
             {
                 GridSearch::Node customerNode(customer->getx(),customer->gety());
-                path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
-                action = GetOrder;
-                return;
-            }
-        } else {
-            if(customers.begin()!=customers.end())
-            {
-                GridSearch searcher(world->getWorldGrid(),&rules);
-                GridSearch::Node customerNode(customers.front()->getx(),customers.front()->gety());
                 path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
                 action = GetOrder;
                 return;
@@ -145,35 +139,22 @@ void RobotWaiter::execute()
     case GetOrder:
         if(path.empty())
         {
+            GridSearch searcher(world->getWorldGrid(),&rules);
+            Customer* customer;
             if(!commandControlled)
+                customer = getClosestCustomer(&cafe->customers);
+            else
+                customer = getClosestCustomer(&customers);
+            if(customer!=NULL)
             {
-                //customers = cafe->customers;
-                GridSearch searcher(world->getWorldGrid(),&rules);
-                Customer* customer = getClosestCustomer();
-                if(customer!=NULL)
+                GridSearch::Node customerNode(customer->getx(),customer->gety());
+                path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                if(path.empty())
                 {
-                    GridSearch::Node customerNode(customer->getx(),customer->gety());
-                    path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
-                    if(path.empty())
-                    {
-                        action = Waiting;
-                    }
-                } else {
                     action = Waiting;
                 }
             } else {
-                if(customers.begin()!=customers.end())
-                {
-                    GridSearch searcher(world->getWorldGrid(),&rules);
-                    GridSearch::Node customerNode(customers.front()->getx(),customers.front()->gety());
-                    path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
-                    if(path.empty())
-                    {
-                        action = Waiting;
-                    }
-                } else {
-                    action = Waiting;
-                }
+                action = Waiting;
             }
         } else {
             GridSearch::Node node = path.front();
@@ -190,10 +171,18 @@ void RobotWaiter::execute()
                         path.clear();
                         cafe->visited.push_back(customer->getIdentifer());
                         cafe->orderMap.push_back(std::pair<Customer*, int>(customer, order));
+                        if(commandControlled)
+                        {
+                            customers.erase(std::find(customers.begin(),customers.end(),customer));
+                        }
                     }
                     //Order already taken
                     if(order==-2)
                     {
+                        if(commandControlled)
+                        {
+                            customers.erase(std::find(customers.begin(),customers.end(),customer));
+                        }
                         path.clear();
                     }
                 } else {
@@ -230,12 +219,12 @@ void RobotWaiter::execute()
     }
 }
 
-Customer* RobotWaiter::getClosestCustomer()
+Customer* RobotWaiter::getClosestCustomer(std::vector<Customer*>* customers)
 {
     Customer* nully = NULL;
     int distance(Screen::SCREEN_HEIGHT), temp(0);
     int x = getx(), y = gety(), x2(0), y2(0);
-    for(std::vector<Customer*>::iterator it = cafe->customers.begin(); it!=cafe->customers.end(); it++)
+    for(std::vector<Customer*>::iterator it = customers->begin(); it!=customers->end(); it++)
     {
         if(std::find(cafe->visited.begin(),cafe->visited.end(),(*it)->getIdentifer())==cafe->visited.end())
         {

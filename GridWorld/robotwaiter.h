@@ -40,10 +40,12 @@ class RobotWaiter : public Object
         void addCustomer(Customer* customer);
         void setCommandControl(bool value)
                 { commandControlled=value; };
+        const std::vector<Customer*>* getAssignedCustomers()
+                { return &customers; };
     protected:
     private:
         void execute();
-        Customer* getClosestCustomer();
+        Customer* getClosestCustomer(std::vector<Customer*>* customers);
         Customer* findCustomer(const int& x, const int& y);
 
         std::vector<Customer*> customers;
