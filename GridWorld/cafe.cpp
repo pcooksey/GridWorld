@@ -38,7 +38,7 @@ void Cafe::start()
     addObject(chef);
     //createCustomer();
     //createCustomer();
-    //createRobotWaiter(9,8);
+    createRobotWaiter(9,8);
     createRobotWaiter(9,9);
     createRobotServer(9,10);
     createRobotServer(9,11);
@@ -53,7 +53,7 @@ void Cafe::start()
 void Cafe::execute()
 {
     time++;
-    if(rand()%50==0)
+    if(rand()%20==0)
     {
         createCustomer();
     }

@@ -9,6 +9,7 @@
 #include "cafeobjects.h"
 #include "kitchencounter.h"
 #include "hamburger.h"
+#include "assert.h"
 
 class Cafe;
 

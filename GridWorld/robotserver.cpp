@@ -162,7 +162,20 @@ void RobotServer::execute()
             else if(move(node.first,node.second)) {
                 path.erase(path.begin());
             } else {
-                path.clear();
+                //path.clear();
+                if(worldMap[node.first][node.second]==WorldObjects::ROBOTSERVER)
+                {
+                    // Strict hierchy of whoever is first in the list can keep moving while the other replans
+                    for(std::vector<RobotServer*>::iterator it=cafe->robotservers.begin(); it!=cafe->robotservers.end(); it++)
+                    {
+                        if((*it)==this)
+                            break;
+                        if((*it)->getx()==node.first && (*it)->gety()==node.second)
+                            path.clear();
+                    }
+                } else {
+                    path.clear();
+                }
             }
         }
         break;

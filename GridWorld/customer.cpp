@@ -88,7 +88,10 @@ int Customer::askForOrder()
     //Should only have to ask once
     if(orderRandomTime==0)
     {
+        orderRandomTime--;
         return WorldObjects::HAMBURGER;
+    } else if(orderRandomTime<0) {
+        return -2;
     } else {
         orderRandomTime--;
         return -1;

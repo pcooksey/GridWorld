@@ -121,8 +121,23 @@ void RobotWaiter::execute()
             {
                 //We want the waiter to wait for the server to go by. This will hopefully ensure that the robots
                 //don't get into a endless loop of up/down which I have seen
-                if(worldMap[node.first][node.second]!=WorldObjects::ROBOTSERVER)
+                //if(worldMap[node.first][node.second]!=WorldObjects::ROBOTSERVER)
+                //    path.clear();
+                if(worldMap[node.first][node.second]==WorldObjects::ROBOTSERVER)
+                {
+                    //Do nothing since we are waiting for the robot server go around us
+                } else if(worldMap[node.first][node.second]==WorldObjects::ROBOTWAITER) {
+                    // Strict hierchy of whoever is first in the list can keep moving while the other replans
+                    for(std::vector<RobotWaiter*>::iterator it=cafe->robotwaiters.begin(); it!=cafe->robotwaiters.end(); it++)
+                    {
+                        if((*it)==this)
+                            break;
+                        if((*it)->getx()==node.first && (*it)->gety()==node.second)
+                            path.clear();
+                    }
+                } else {
                     path.clear();
+                }
             }
         }
 
@@ -169,12 +184,17 @@ void RobotWaiter::execute()
                 if(customer!=NULL)
                 {
                     int order = customer->askForOrder();
-                    if(order!=-1)
+                    if(order!=-1 && order!=-2)
                     {
                         cafe->orders.push_back(order);
                         path.clear();
                         cafe->visited.push_back(customer->getIdentifer());
                         cafe->orderMap.push_back(std::pair<Customer*, int>(customer, order));
+                    }
+                    //Order already taken
+                    if(order==-2)
+                    {
+                        path.clear();
                     }
                 } else {
                     // Made a mistake! There was no customer
@@ -189,8 +209,21 @@ void RobotWaiter::execute()
             {
                 //We want the waiter to wait for the server to go by. This will hopefully ensure that the robots
                 //don't get into a endless loop of up/down which I have seen
-                if(worldMap[node.first][node.second]!=WorldObjects::ROBOTSERVER)
+                if(worldMap[node.first][node.second]==WorldObjects::ROBOTSERVER)
+                {
+                    //Do nothing since we are waiting for the robot server go around us
+                } else if(worldMap[node.first][node.second]==WorldObjects::ROBOTWAITER) {
+                    // Strict hierchy of whoever is first in the list can keep moving while the other replans
+                    for(std::vector<RobotWaiter*>::iterator it=cafe->robotwaiters.begin(); it!=cafe->robotwaiters.end(); it++)
+                    {
+                        if((*it)==this)
+                            break;
+                        if((*it)->getx()==node.first && (*it)->gety()==node.second)
+                            path.clear();
+                    }
+                } else {
                     path.clear();
+                }
             }
         }
         break;

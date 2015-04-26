@@ -59,6 +59,7 @@ void Kitchen::execute()
 
 bool Kitchen::addFood(int foodNum)
 {
+    assert(foodNum>0);
     std::vector<int>::iterator it = std::find(food.begin(), food.end(), 0);
     if(it!=food.end())
     {
