@@ -27,6 +27,7 @@ void Kitchen::start()
     }
     food.resize(counters.size(),0);
     foodTimes.resize(counters.size(),0);
+    objects.resize(counters.size(),NULL);
 }
 
 void Kitchen::execute()
@@ -42,8 +43,10 @@ void Kitchen::execute()
                 if(cafe->belt.addFood(food[iteratorNum]) || (*it)>=15)
                 {
                     Object* object = objects[iteratorNum];
+                    assert(object!=NULL);
                     world->removeObject(object);
-                    objects.erase(std::find(objects.begin(),objects.end(),object));
+                    //objects.erase(std::find(objects.begin(),objects.end(),object));
+                    objects[iteratorNum] = NULL;
                     delete object;
                     if((*it)>=15)
                     {
@@ -63,16 +66,16 @@ bool Kitchen::addFood(int foodNum)
     std::vector<int>::iterator it = std::find(food.begin(), food.end(), 0);
     if(it!=food.end())
     {
-        KitchenCounter* kit = counters[it-food.begin()];
-        (*it)=foodNum;
         if(foodNum==WorldObjects::HAMBURGER)
         {
-            objects.push_back(new Hamburger(kit->getx(),kit->gety(),foodNum, world));
-            world->addObject(objects.back());
-        } else {
-
+            KitchenCounter* kit = counters[it-food.begin()];
+            (*it)=foodNum;
+            //objects.push_back(new Hamburger(kit->getx(),kit->gety(),foodNum, world));
+            //world->addObject(objects.back());
+            objects[it-food.begin()] = new Hamburger(kit->getx(),kit->gety(),foodNum, world);
+            world->addObject(objects[it-food.begin()]);
+            return true;
         }
-        return true;
     }
     return false;
 }

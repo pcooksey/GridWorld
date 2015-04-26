@@ -221,6 +221,7 @@ void World::addObject(Object* temp)
 void World::removeObject(Object* temp)
 {
     std::vector<Object*>::iterator it = std::find (objects.begin(), objects.end(), temp);
+    assert(it!=objects.end());
     objects.erase(it);
 }
 

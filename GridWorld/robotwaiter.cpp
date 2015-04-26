@@ -86,7 +86,7 @@ void RobotWaiter::execute()
     case Waiting:
         if(!commandControlled)
         {
-            customers = cafe->customers;
+            //customers = cafe->customers;
             GridSearch searcher(world->getWorldGrid(),&rules);
             Customer* customer = getClosestCustomer();
             if(customer!=NULL)
@@ -147,7 +147,7 @@ void RobotWaiter::execute()
         {
             if(!commandControlled)
             {
-                customers = cafe->customers;
+                //customers = cafe->customers;
                 GridSearch searcher(world->getWorldGrid(),&rules);
                 Customer* customer = getClosestCustomer();
                 if(customer!=NULL)
@@ -235,7 +235,7 @@ Customer* RobotWaiter::getClosestCustomer()
     Customer* nully = NULL;
     int distance(Screen::SCREEN_HEIGHT), temp(0);
     int x = getx(), y = gety(), x2(0), y2(0);
-    for(std::vector<Customer*>::iterator it = customers.begin(); it!=customers.end(); it++)
+    for(std::vector<Customer*>::iterator it = cafe->customers.begin(); it!=cafe->customers.end(); it++)
     {
         if(std::find(cafe->visited.begin(),cafe->visited.end(),(*it)->getIdentifer())==cafe->visited.end())
         {
@@ -255,7 +255,7 @@ Customer* RobotWaiter::getClosestCustomer()
 Customer* RobotWaiter::findCustomer(const int& x, const int& y)
 {
     Customer* nully = NULL;
-    for(std::vector<Customer*>::iterator it = customers.begin(); it!=customers.end(); it++)
+    for(std::vector<Customer*>::iterator it = cafe->customers.begin(); it!=cafe->customers.end(); it++)
     {
         if((*it)->getx()==x && (*it)->gety()==y)
             return (*it);
