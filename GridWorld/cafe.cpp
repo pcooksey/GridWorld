@@ -38,8 +38,10 @@ void Cafe::start()
     addObject(chef);
     //createCustomer();
     //createCustomer();
+    //createRobotWaiter(9,8);
     createRobotWaiter(9,9);
     createRobotServer(9,10);
+    createRobotServer(9,11);
     createRobotArm();
 
     commandCenter = new CommandCenter(this);
@@ -107,9 +109,19 @@ void Cafe::findDoors()
 
 Cafe::Node Cafe::getADoor()
 {
-    srand (::time(0));
-    std::random_shuffle ( doorways.begin(), doorways.end() );
+    random_shuffle ( doorways.begin(), doorways.end());
     return doorways.front();
+}
+
+template< class RandomIt >
+void Cafe::random_shuffle( RandomIt first, RandomIt last )
+{
+    typename std::iterator_traits<RandomIt>::difference_type i, n;
+    n = last - first;
+    for (i = n-1; i > 0; --i) {
+        using std::swap;
+        swap(first[i], first[std::rand() % (i+1)]);
+    }
 }
 
 void Cafe::createCustomer()

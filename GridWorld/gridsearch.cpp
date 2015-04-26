@@ -172,8 +172,7 @@ GridSearch::Path GridSearch::getBranches(Node node)
     checking=right;
     if(rules->check(this, nodeID(right)))
         nodes.push_back(right);
-    srand(time(0));
-    std::random_shuffle ( nodes.begin(), nodes.end() );
+    random_shuffle ( nodes.begin(), nodes.end());
     return nodes;
 }
 
@@ -203,5 +202,16 @@ int GridSearch::nodeID(Node node)
        return NoID;
     else {
         return gridMap[node.first][node.second];
+    }
+}
+
+template< class RandomIt >
+void GridSearch::random_shuffle( RandomIt first, RandomIt last )
+{
+    typename std::iterator_traits<RandomIt>::difference_type i, n;
+    n = last - first;
+    for (i = n-1; i > 0; --i) {
+        using std::swap;
+        swap(first[i], first[std::rand() % (i+1)]);
     }
 }

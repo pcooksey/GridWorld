@@ -43,6 +43,9 @@ class Cafe : public World
 
     private:
 
+        template< class RandomIt >
+        void random_shuffle( RandomIt first, RandomIt last );
+
         unsigned int time;
 
         int identifier;

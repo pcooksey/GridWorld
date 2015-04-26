@@ -76,6 +76,9 @@ class GridSearch
         int id;
 
     private:
+        template< class RandomIt >
+        void random_shuffle( RandomIt first, RandomIt last );
+
         const Map& grid;
         Rules* rules;
 

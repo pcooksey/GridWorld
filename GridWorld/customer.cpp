@@ -71,6 +71,15 @@ void Customer::execute()
                 move(node.first,node.second);
             }
         }
+    } else {
+        if(readyToLeave)
+        {
+            GridSearch searcher(world->getWorldGrid(),&rules);
+            path = searcher.BFS(GridSearch::Node(getx(),gety()), GridSearch::NullNode, DOORWAY);
+        } else {
+            GridSearch searcher(world->getWorldGrid(),&rules);
+            path = searcher.DFS(GridSearch::Node(getx(),gety()), GridSearch::NullNode, TABLE);
+        }
     }
 }
 

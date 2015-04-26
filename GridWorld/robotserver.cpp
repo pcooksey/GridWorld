@@ -60,6 +60,14 @@ void RobotServer::execute()
             {
                 path.clear();
             }
+        } else {
+            GridSearch searcher(world->getWorldGrid(),&rules);
+            GridSearch::Node pickUpNode(cafe->robotArm->getx(),cafe->robotArm->gety());
+            path = searcher.BFS(GridSearch::Node(getx(),gety()), pickUpNode, GridSearch::NullID);
+            if(!path.empty())
+            {
+                action = GetFood;
+            }
         }
         break;
     case GetFood:
@@ -83,6 +91,8 @@ void RobotServer::execute()
                     if(foodNum!=0)
                     {
                         food.push_back(foodNum);
+                    } else if(food.size()>0) {
+                        action = ServerFood;
                     }
                 } else {
                     action = ServerFood;
