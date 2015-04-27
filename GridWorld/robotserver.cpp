@@ -97,7 +97,7 @@ void RobotServer::execute()
         } else {
             GridSearch::Node node = path.front();
             const Map::MultiArray& worldMap = world->getWorldGrid().getGrid();
-            if(path.size()<=2 && worldMap[node.first][node.second]==WorldObjects::PICKUP)
+            if(path.size()<2 && worldMap[node.first][node.second]==WorldObjects::PICKUP)
             {
                 if(!commandControlled)
                 {
@@ -166,7 +166,7 @@ void RobotServer::execute()
         } else {
             GridSearch::Node node = path.front();
             const Map::MultiArray& worldMap = world->getWorldGrid().getGrid();
-            if(path.size()<=2 && worldMap[node.first][node.second]==WorldObjects::CUSTOMER)
+            if(path.size()<2 && worldMap[node.first][node.second]==WorldObjects::CUSTOMER)
             {
                 if(!commandControlled)
                 {

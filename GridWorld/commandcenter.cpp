@@ -10,7 +10,7 @@ bool CommandCenterRules::check(GridSearch* searcher, int id)
 CommandCenter::CommandCenter(World* world)
 : world(world)
 {
-    operationMethod = ByRoomPlacement;
+    operationMethod = ByOrder;
     cafe = static_cast<Cafe*>(world);
     for(std::vector<RobotWaiter*>::iterator it=cafe->robotwaiters.begin(); it!=cafe->robotwaiters.end(); it++)
     {
