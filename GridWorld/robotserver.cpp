@@ -61,12 +61,26 @@ void RobotServer::execute()
                 path.clear();
             }
         } else {
-            GridSearch searcher(world->getWorldGrid(),&rules);
-            GridSearch::Node pickUpNode(cafe->robotArm->getx(),cafe->robotArm->gety());
-            path = searcher.BFS(GridSearch::Node(getx(),gety()), pickUpNode, GridSearch::NullID);
-            if(!path.empty())
+            if(!commandControlled)
             {
-                action = GetFood;
+                GridSearch searcher(world->getWorldGrid(),&rules);
+                GridSearch::Node pickUpNode(cafe->robotArm->getx(),cafe->robotArm->gety());
+                path = searcher.BFS(GridSearch::Node(getx(),gety()), pickUpNode, GridSearch::NullID);
+                if(!path.empty())
+                {
+                    action = GetFood;
+                }
+            } else {
+                if(customers.size()>0)
+                {
+                    GridSearch searcher(world->getWorldGrid(),&rules);
+                    GridSearch::Node pickUpNode(cafe->robotArm->getx(),cafe->robotArm->gety());
+                    path = searcher.BFS(GridSearch::Node(getx(),gety()), pickUpNode, GridSearch::NullID);
+                    if(!path.empty())
+                    {
+                        action = GetFood;
+                    }
+                }
             }
         }
         break;
@@ -140,6 +154,8 @@ void RobotServer::execute()
                     GridSearch searcher(world->getWorldGrid(),&rules);
                     GridSearch::Node customerNode(customers.front()->getx(),customers.front()->gety());
                     path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                } else {
+                    action = Nothing;
                 }
             }
         } else {

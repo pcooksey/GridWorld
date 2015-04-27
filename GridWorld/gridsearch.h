@@ -57,7 +57,6 @@ class GridSearch
         /** Depth-first search returns a path stored in vector */
         Path DFS(Node start, Node goal = NullNode, int id = NullID);
 
-    protected:
         /** Returns all branches with checks from rules */
         Path getBranches(Node node);
         /** Returns all branches ids (to be used by rules) */
@@ -65,6 +64,7 @@ class GridSearch
         /** Returns the @id of the @node */
         int nodeID(Node node);
 
+    protected:
         /** These values are set by search functions and can be used
             by the Rules class to determine case based reasoning */
         Node start;

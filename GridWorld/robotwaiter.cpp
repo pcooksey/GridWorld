@@ -57,6 +57,7 @@ RobotWaiter::RobotWaiter(const int &x, const int &y, const int &id, World* world
     cafe = static_cast<Cafe*>(world);
     commandControlled = false;
     action = GetOrder;
+    waitingCount = 0;
 }
 
 RobotWaiter::~RobotWaiter()
@@ -120,6 +121,12 @@ void RobotWaiter::execute()
                 if(worldMap[node.first][node.second]==WorldObjects::ROBOTSERVER)
                 {
                     //Do nothing since we are waiting for the robot server go around us
+                    waitingCount++;
+                    if(waitingCount>2)
+                    {
+                        path.clear();
+                        waitingCount =0;
+                    }
                 } else if(worldMap[node.first][node.second]==WorldObjects::ROBOTWAITER) {
                     // Strict hierchy of whoever is first in the list can keep moving while the other replans
                     for(std::vector<RobotWaiter*>::iterator it=cafe->robotwaiters.begin(); it!=cafe->robotwaiters.end(); it++)
@@ -201,6 +208,12 @@ void RobotWaiter::execute()
                 if(worldMap[node.first][node.second]==WorldObjects::ROBOTSERVER)
                 {
                     //Do nothing since we are waiting for the robot server go around us
+                    waitingCount++;
+                    if(waitingCount>2)
+                    {
+                        path.clear();
+                        waitingCount =0;
+                    }
                 } else if(worldMap[node.first][node.second]==WorldObjects::ROBOTWAITER) {
                     // Strict hierchy of whoever is first in the list can keep moving while the other replans
                     for(std::vector<RobotWaiter*>::iterator it=cafe->robotwaiters.begin(); it!=cafe->robotwaiters.end(); it++)

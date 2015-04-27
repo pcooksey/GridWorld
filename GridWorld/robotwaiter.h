@@ -52,6 +52,7 @@ class RobotWaiter : public Object
 
         //Is the robot controller by the command center
         bool commandControlled;
+        int waitingCount;
 
         GridSearch::Node birthPlace;
         GridSearch::Path path;

@@ -1,9 +1,16 @@
 #include "commandcenter.h"
 
+bool CommandCenterRules::check(GridSearch* searcher, int id)
+{
+    if(id==TABLE)
+        return true;
+    return false;
+}
+
 CommandCenter::CommandCenter(World* world)
 : world(world)
 {
-    operationMethod = ByOrder;
+    operationMethod = ByRoomPlacement;
     cafe = static_cast<Cafe*>(world);
     for(std::vector<RobotWaiter*>::iterator it=cafe->robotwaiters.begin(); it!=cafe->robotwaiters.end(); it++)
     {
@@ -52,6 +59,36 @@ void CommandCenter::execute()
 
         break;
     case ByRoomPlacement:
+        //This one has to be designed for each amount of robot or figure out some general way of splitting the room
+        //Right now splitting right down the middle of the room
+        for(std::vector<Customer*>::iterator it=cafe->customers.begin(); it!=cafe->customers.end(); it++)
+        {
+            if(atTable((*it)) && std::find(cafe->visited.begin(),cafe->visited.end(),(*it)->getIdentifer())==cafe->visited.end() &&
+                !assignedWaiter((*it)))
+            {
+                if((*it)->gety()>(world->getGrid().getSize().second/2))
+                {
+                    waiterToAssignNext = 1;
+                } else {
+                    waiterToAssignNext = 0;
+                }
+                cafe->robotwaiters[waiterToAssignNext]->addCustomer((*it));
+            }
+        }
+
+        for(std::vector<std::pair<Customer*, int> >::iterator it=cafe->orderMap.begin(); it!=cafe->orderMap.end(); it++)
+        {
+            if(!assignedServer((*it).first))
+            {
+                if((*it).first->gety()>(world->getGrid().getSize().second/2))
+                {
+                    serverToAssignNext = 1;
+                } else {
+                    serverToAssignNext = 0;
+                }
+                cafe->robotservers[serverToAssignNext]->addCustomer((*it).first);
+            }
+        }
         break;
     }
 }
@@ -83,5 +120,15 @@ bool CommandCenter::assignedServer(Customer* customer)
                 return true;
         }
     }
+    return false;
+}
+
+bool CommandCenter::atTable(Customer* customer)
+{
+    GridSearch::Node node(customer->getx(),customer->gety());
+    GridSearch searcher(world->getWorldGrid(),&rules);
+    GridSearch::Path blocks = searcher.getBranches(node);
+    if(blocks.size()>0)
+        return true;
     return false;
 }
