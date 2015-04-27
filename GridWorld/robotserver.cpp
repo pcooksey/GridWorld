@@ -115,18 +115,23 @@ void RobotServer::execute()
                         path.clear();
                     }
                 } else {
-                    if(food.size()<3)
+                    if(customers.size()!=0)
                     {
-                        int foodNum = cafe->robotArm->grabFood();
-                        if(foodNum!=0)
+                        if(food.size()<3)
                         {
-                            food.push_back(foodNum);
-                        } else if(food.size()>0 && customers.size()<=food.size()) {
+                            int foodNum = cafe->robotArm->grabFood();
+                            if(foodNum!=0)
+                            {
+                                food.push_back(foodNum);
+                            } else if(food.size()>0 && customers.size()<=food.size()) {
+                                action = ServerFood;
+                            }
+                        } else {
                             action = ServerFood;
+                            path.clear();
                         }
                     } else {
-                        action = ServerFood;
-                        path.clear();
+                        action = Nothing;
                     }
                 }
             }
