@@ -3,7 +3,7 @@
 Cafe::Cafe(std::string fileName)
 :World(fileName), gridMap(getGrid()), belt(CONVEYORBELT,this)
 {
-    setWorldTimeSpeed(10);
+    setWorldTimeSpeed(5);
     time = 0;
 }
 
@@ -45,7 +45,7 @@ void Cafe::start()
     createRobotArm();
 
     //Needs to be after the creation of robots!
-    commandCenter = new CommandCenter(this, true);
+    commandCenter = new CommandCenter(this, false);
 
     updateWorldMap();
     return World::start();

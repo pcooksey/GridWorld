@@ -40,14 +40,15 @@ void Kitchen::execute()
             (*it)++;
             if((*it)>=10)
             {
-                if(cafe->belt.addFood(food[iteratorNum]) || (*it)>=15)
+                bool foodAdded = cafe->belt.addFood(food[iteratorNum]);
+                if(foodAdded || (*it)>=15)
                 {
                     Object* object = objects[iteratorNum];
                     assert(object!=NULL);
                     world->removeObject(object);
                     objects[iteratorNum] = NULL;
                     delete object;
-                    if((*it)>=15)
+                    if(!foodAdded && (*it)>=15)
                     {
                         cafe->orders.push_back(food[iteratorNum]);
                     }
