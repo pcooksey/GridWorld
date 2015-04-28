@@ -45,7 +45,7 @@ void Cafe::start()
     createRobotArm();
 
     //Needs to be after the creation of robots!
-    commandCenter = new CommandCenter(this);
+    commandCenter = new CommandCenter(this, false);
 
     updateWorldMap();
     return World::start();

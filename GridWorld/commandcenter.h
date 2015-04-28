@@ -24,7 +24,7 @@ class CommandCenter
             ByOrder,
             ByRoomPlacement
         };
-        CommandCenter(World* world);
+        CommandCenter(World* world, bool turnedOn);
         virtual ~CommandCenter();
         void execute();
     protected:
@@ -35,6 +35,7 @@ class CommandCenter
 
         int waiterToAssignNext;
         int serverToAssignNext;
+        bool turnedOn;
         CommandCenterRules rules;
         Method operationMethod;
         World* world;

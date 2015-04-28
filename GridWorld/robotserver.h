@@ -40,6 +40,8 @@ class RobotServer : public Object
     private:
         void execute();
 
+        int timeHolding;
+
         std::vector<int> food;
         std::vector<Customer*> customers;
 

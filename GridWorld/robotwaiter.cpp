@@ -213,6 +213,7 @@ void RobotWaiter::execute()
                     {
                         path.clear();
                         waitingCount =0;
+                        action = Waiting;
                     }
                 } else if(worldMap[node.first][node.second]==WorldObjects::ROBOTWAITER) {
                     // Strict hierchy of whoever is first in the list can keep moving while the other replans

@@ -7,18 +7,21 @@ bool CommandCenterRules::check(GridSearch* searcher, int id)
     return false;
 }
 
-CommandCenter::CommandCenter(World* world)
-: world(world)
+CommandCenter::CommandCenter(World* world, bool turnedOn)
+: world(world), turnedOn(turnedOn)
 {
     operationMethod = ByOrder;
     cafe = static_cast<Cafe*>(world);
-    for(std::vector<RobotWaiter*>::iterator it=cafe->robotwaiters.begin(); it!=cafe->robotwaiters.end(); it++)
+    if(turnedOn)
     {
-        (*it)->setCommandControl(true);
-    }
-    for(std::vector<RobotServer*>::iterator it=cafe->robotservers.begin(); it!=cafe->robotservers.end(); it++)
-    {
-        (*it)->setCommandControl(true);
+        for(std::vector<RobotWaiter*>::iterator it=cafe->robotwaiters.begin(); it!=cafe->robotwaiters.end(); it++)
+        {
+            (*it)->setCommandControl(true);
+        }
+        for(std::vector<RobotServer*>::iterator it=cafe->robotservers.begin(); it!=cafe->robotservers.end(); it++)
+        {
+            (*it)->setCommandControl(true);
+        }
     }
     waiterToAssignNext = 0;
     serverToAssignNext = 0;
@@ -31,6 +34,8 @@ CommandCenter::~CommandCenter()
 
 void CommandCenter::execute()
 {
+    if(!turnedOn)
+        return;
     switch(operationMethod)
     {
     case ByOrder:

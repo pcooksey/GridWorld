@@ -33,6 +33,7 @@ RobotServer::RobotServer(const int &x, const int &y, const int &id, World* world
     cafe = static_cast<Cafe*>(world);
     action = GetFood;
     commandControlled = false;
+    timeHolding = 0;
 }
 
 RobotServer::~RobotServer()
@@ -138,7 +139,33 @@ void RobotServer::execute()
             else if(move(node.first,node.second)) {
                 path.erase(path.begin());
             } else {
-                path.clear();
+                //path.clear();
+                if(worldMap[node.first][node.second]==WorldObjects::ROBOTSERVER)
+                {
+                    // Strict hierchy of whoever is first in the list can keep moving while the other replans
+                    for(std::vector<RobotServer*>::iterator it=cafe->robotservers.begin(); it!=cafe->robotservers.end(); it++)
+                    {
+                        if((*it)==this)
+                        {
+                            timeHolding++;
+                            if(timeHolding>2)
+                            {
+                                path.clear();
+                                action = Nothing;\
+                                timeHolding = 0;
+                            }
+                            break;
+                        }
+                        if((*it)->getx()==node.first && (*it)->gety()==node.second)
+                        {
+                            path.clear();
+                            action = Nothing;
+                            break;
+                        }
+                    }
+                } else {
+                    path.clear();
+                }
             }
         }
         break;
