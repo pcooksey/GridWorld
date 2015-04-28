@@ -133,6 +133,7 @@ void RobotServer::execute()
                         }
                     } else {
                         action = Nothing;
+                        path.clear();
                     }
                 }
             }
@@ -151,7 +152,7 @@ void RobotServer::execute()
                             if(timeHolding>2)
                             {
                                 path.clear();
-                                action = Nothing;\
+                                action = Nothing;
                                 timeHolding = 0;
                             }
                             break;
@@ -159,7 +160,7 @@ void RobotServer::execute()
                         if((*it)->getx()==node.first && (*it)->gety()==node.second)
                         {
                             path.clear();
-                            action = Nothing;
+                            //action = Nothing;
                             break;
                         }
                     }
@@ -179,6 +180,13 @@ void RobotServer::execute()
                     GridSearch searcher(world->getWorldGrid(),&rules);
                     GridSearch::Node customerNode(cafe->orderMap.front().first->getx(),cafe->orderMap.front().first->gety());
                     path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
+                } else {
+                    action = Nothing;
+                    path.clear();
+                }
+                if(path.empty())
+                {
+                    action = Nothing;
                 }
             } else {
                 if(customers.begin()!=customers.end())
@@ -187,6 +195,11 @@ void RobotServer::execute()
                     GridSearch::Node customerNode(customers.front()->getx(),customers.front()->gety());
                     path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
                 } else {
+                    action = Nothing;
+                    path.clear();
+                }
+                if(path.empty())
+                {
                     action = Nothing;
                 }
             }
@@ -236,9 +249,22 @@ void RobotServer::execute()
                     for(std::vector<RobotServer*>::iterator it=cafe->robotservers.begin(); it!=cafe->robotservers.end(); it++)
                     {
                         if((*it)==this)
+                        {
+                            timeHolding++;
+                            if(timeHolding>2)
+                            {
+                                path.clear();
+                                action = Nothing;
+                                timeHolding = 0;
+                            }
                             break;
+                        }
                         if((*it)->getx()==node.first && (*it)->gety()==node.second)
+                        {
                             path.clear();
+                            //action = Nothing;
+                            break;
+                        }
                     }
                 } else {
                     path.clear();

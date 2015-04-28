@@ -10,7 +10,7 @@ bool CommandCenterRules::check(GridSearch* searcher, int id)
 CommandCenter::CommandCenter(World* world, bool turnedOn)
 : world(world), turnedOn(turnedOn)
 {
-    operationMethod = ByOrder;
+    operationMethod = ByRoomPlacement;
     cafe = static_cast<Cafe*>(world);
     if(turnedOn)
     {

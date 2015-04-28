@@ -98,7 +98,6 @@ void RobotWaiter::execute()
                 GridSearch::Node customerNode(customer->getx(),customer->gety());
                 path = searcher.BFS(GridSearch::Node(getx(),gety()), customerNode, GridSearch::NullID);
                 action = GetOrder;
-                return;
             }
         }
         if(path.empty() && getx()!=birthPlace.first && gety()!=birthPlace.second)
@@ -220,9 +219,21 @@ void RobotWaiter::execute()
                     for(std::vector<RobotWaiter*>::iterator it=cafe->robotwaiters.begin(); it!=cafe->robotwaiters.end(); it++)
                     {
                         if((*it)==this)
+                        {
+                            waitingCount++;
+                            if(waitingCount>2)
+                            {
+                                path.clear();
+                                action = Waiting;
+                                waitingCount = 0;
+                            }
                             break;
+                        }
                         if((*it)->getx()==node.first && (*it)->gety()==node.second)
+                        {
                             path.clear();
+                            break;
+                        }
                     }
                 } else {
                     path.clear();
