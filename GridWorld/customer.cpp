@@ -79,6 +79,10 @@ void Customer::execute()
         } else {
             GridSearch searcher(world->getWorldGrid(),&rules);
             path = searcher.DFS(GridSearch::Node(getx(),gety()), GridSearch::NullNode, TABLE);
+            if(path.empty())
+            {
+                readyToLeave = true;
+            }
         }
     }
 }

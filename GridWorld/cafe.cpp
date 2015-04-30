@@ -46,6 +46,10 @@ void Cafe::start()
 
     //Needs to be after the creation of robots!
     commandCenter = new CommandCenter(this, true);
+    std::ofstream ofs;
+    ofs.open ("customerTimes.csv", std::ofstream::out );
+    ofs<<"ID, Initial Time, Total Time, Left Early"<<std::endl;
+    ofs.close();
 
     updateWorldMap();
     return World::start();
@@ -73,18 +77,28 @@ void Cafe::execute()
         Node temp((*it)->getx(), (*it)->gety());
         if((*it)->readyToLeave && std::find(doorways.begin(), doorways.end(), temp)!=doorways.end())
         {
+            std::ofstream ofs;
+            ofs.open ("customerTimes.csv", std::ofstream::out | std::ofstream::app);
+
             int initialTime = customerTimes[(*it)->getIdentifer()];
             customerTimes[(*it)->getIdentifer()] = time - customerTimes[(*it)->getIdentifer()];
             std::vector<int>::iterator visitIT = std::find(visited.begin(),visited.end(),(*it)->getIdentifer());
-            visited.erase(visitIT);
-            std::ofstream ofs;
-            ofs.open ("customerTimes.csv", std::ofstream::out | std::ofstream::app);
-            ofs<<(*it)->getIdentifer()<<","<<initialTime<<","<<customerTimes[(*it)->getIdentifer()]<<std::endl;
+            bool leftEarly = visitIT!=visited.end();
+            if(leftEarly)
+            {
+                visited.erase(visitIT);
+            }
+            ofs<<(*it)->getIdentifer()<<","
+               <<initialTime<<","
+               <<customerTimes[(*it)->getIdentifer()]<<","
+               <<((leftEarly)?1:0)<<","
+               <<std::endl;
             customerTimes.erase((*it)->getIdentifer());
             delete (*it);
             removeObject((*it));
             customers.erase(it);
             it--;
+            ofs.close();
         }
     }
     //This needs to be after the deletion of customers since we don't want to assign null customers
